@@ -1,0 +1,100 @@
+[gd_scene load_steps=13 format=3 uid="uid://dj1l0psp2csoc"]
+
+[ext_resource type="PackedScene" uid="uid://c8t6ci14xvmh" path="res://scenes/player.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://d2ys40ej5wjdg" path="res://scripts/camera_2d.gd" id="2_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://nrn1osh04ht5" path="res://assets/background/forest 1920x1080/forest_sky.png" id="3_sugp2"]
+[ext_resource type="Texture2D" uid="uid://jkmucmc0yp83" path="res://assets/background/forest 1920x1080/forest_mountain.png" id="4_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://b45rmb3mkv5ik" path="res://assets/background/forest 1920x1080/forest_back.png" id="5_tipki"]
+[ext_resource type="Texture2D" uid="uid://b7xwrswtanx08" path="res://assets/background/forest 1920x1080/forest_mid.png" id="6_85g3d"]
+[ext_resource type="Texture2D" uid="uid://ijcv6rkg8pyc" path="res://assets/background/forest 1920x1080/forest_short.png" id="7_choun"]
+[ext_resource type="Texture2D" uid="uid://bgaxwnigmbuxe" path="res://assets/ui/bars/04.png" id="8_tipki"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85g3d"]
+atlas = ExtResource("8_tipki")
+region = Rect2(295.03543, 69.96249, 34.093475, 5.0740128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_choun"]
+atlas = ExtResource("8_tipki")
+region = Rect2(55.000168, 69.85382, 34.05397, 5.302025)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tipki"]
+atlas = ExtResource("8_tipki")
+region = Rect2(294.90894, 102.021255, 34.21057, 5.05925)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ya4ey"]
+atlas = ExtResource("8_tipki")
+region = Rect2(55.011295, 101.925545, 34.13052, 5.0505447)
+
+[node name="main" type="Node2D"]
+
+[node name="player" parent="." instance=ExtResource("1_o5qli")]
+position = Vector2(159, 453)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(560, 542)
+offset = Vector2(400, 0)
+script = ExtResource("2_o6xl0")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="sky" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sky"]
+texture = ExtResource("3_sugp2")
+centered = false
+
+[node name="mountains" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.4, 0.4)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/mountains"]
+scale = Vector2(1.00104, 1)
+texture = ExtResource("4_o6xl0")
+centered = false
+
+[node name="treesfar" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.6, 0.6)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/treesfar"]
+texture = ExtResource("5_tipki")
+centered = false
+
+[node name="treesmid" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/treesmid"]
+texture = ExtResource("6_85g3d")
+centered = false
+
+[node name="treesclose" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/treesclose"]
+texture = ExtResource("7_choun")
+centered = false
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" type="TextureProgressBar" parent="UI"]
+offset_right = 300.0
+offset_bottom = 40.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("AtlasTexture_85g3d")
+texture_progress = SubResource("AtlasTexture_choun")
+metadata/_edit_use_anchors_ = true
+
+[node name="ShieldBar" type="TextureProgressBar" parent="UI"]
+offset_left = 300.0
+offset_top = 1.0
+offset_right = 600.0
+offset_bottom = 41.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("AtlasTexture_tipki")
+texture_progress = SubResource("AtlasTexture_ya4ey")
+metadata/_edit_use_anchors_ = true

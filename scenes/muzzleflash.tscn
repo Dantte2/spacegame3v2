@@ -1,0 +1,106 @@
+[gd_scene load_steps=16 format=3 uid="uid://u3iynvpq0fko"]
+
+[ext_resource type="Texture2D" uid="uid://c5ns1dl7pscpi" path="res://assets/projectiles/bullets/313.png" id="1_hxowp"]
+[ext_resource type="Script" uid="uid://bfwktsywpbtcc" path="res://scripts/muzzleflash.gd" id="1_vehdi"]
+[ext_resource type="Texture2D" uid="uid://bd6bx0ppapm6d" path="res://assets/particles/sprite-sheet.png" id="3_pqgoh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jh3g0"]
+atlas = ExtResource("3_pqgoh")
+region = Rect2(0, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iyp6t"]
+atlas = ExtResource("3_pqgoh")
+region = Rect2(128, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dux77"]
+atlas = ExtResource("3_pqgoh")
+region = Rect2(256, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lwdus"]
+atlas = ExtResource("3_pqgoh")
+region = Rect2(384, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_on2cy"]
+atlas = ExtResource("3_pqgoh")
+region = Rect2(512, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rusqc"]
+atlas = ExtResource("3_pqgoh")
+region = Rect2(0, 64, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vehdi"]
+atlas = ExtResource("1_hxowp")
+region = Rect2(0, 0, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqgoh"]
+atlas = ExtResource("1_hxowp")
+region = Rect2(64, 0, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h58ct"]
+atlas = ExtResource("1_hxowp")
+region = Rect2(128, 0, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twn3i"]
+atlas = ExtResource("1_hxowp")
+region = Rect2(192, 0, 64, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apxl1"]
+atlas = ExtResource("1_hxowp")
+region = Rect2(448, 0, 64, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jh3g0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jh3g0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iyp6t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dux77")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lwdus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_on2cy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rusqc")
+}],
+"loop": false,
+"name": &"balls",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vehdi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqgoh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h58ct")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twn3i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_apxl1")
+}],
+"loop": false,
+"name": &"flash",
+"speed": 20.0
+}]
+
+[node name="muzzleflash" type="Node2D"]
+z_index = 10
+scale = Vector2(0.3, 0.3)
+script = ExtResource("1_vehdi")
+duration = 0.5
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 10
+sprite_frames = SubResource("SpriteFrames_jh3g0")
+animation = &"balls"

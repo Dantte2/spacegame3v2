@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://gjr0nf4o7uon"]
+
+[ext_resource type="Script" uid="uid://cfig64wnwsol8" path="res://scripts/super.gd" id="1_it2rv"]
+[ext_resource type="PackedScene" uid="uid://deqmb1js8tmcv" path="res://scenes/explosion_damage.tscn" id="2_flpew"]
+[ext_resource type="Texture2D" uid="uid://2hj5gflpq2uh" path="res://assets/projectiles/missle/Missile02D.png" id="3_rr3vd"]
+[ext_resource type="Texture2D" uid="uid://b0yp1lgv6pnba" path="res://assets/particles/glowing_circle.png" id="18_arwpw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qkodl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_rr3vd")
+}],
+"loop": true,
+"name": &"super",
+"speed": 20.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_j1l5h"]
+offsets = PackedFloat32Array(0.06603774, 0.3207547, 0.6226415)
+colors = PackedColorArray(1.318, 0.609, 1.5, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_arwpw"]
+gradient = SubResource("Gradient_j1l5h")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_272ck"]
+_data = [Vector2(0.015151501, 0), 0.0, 0.0, 0, 0, Vector2(0.47727275, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_j1l5h"]
+curve = SubResource("Curve_272ck")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cc7ec"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(3100, 20, 1)
+direction = Vector3(-1, 0, 0)
+spread = 5.0
+gravity = Vector3(0, 0, 0)
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+scale_min = 0.29999998
+scale_max = 0.29999998
+scale_curve = SubResource("CurveTexture_j1l5h")
+color_ramp = SubResource("GradientTexture1D_arwpw")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rr3vd"]
+radius = 12.0
+height = 100.0
+
+[node name="super" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_it2rv")
+explosion_scene = ExtResource("2_flpew")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = 1.5707964
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_qkodl")
+animation = &"super"
+frame_progress = 0.607409
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AnimatedSprite2D"]
+process_mode = 3
+scale = Vector2(0.017401591, 8.623817)
+amount = 200
+texture = ExtResource("18_arwpw")
+lifetime = 0.2
+preprocess = 1.0
+fixed_fps = 60
+visibility_rect = Rect2(-5000, -1000, 2000, 2000)
+process_material = SubResource("ParticleProcessMaterial_cc7ec")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_rr3vd")

@@ -1,0 +1,67 @@
+[gd_scene load_steps=13 format=3 uid="uid://bxuhiikq26ti0"]
+
+[ext_resource type="Texture2D" uid="uid://btpdp5vi3nyeu" path="res://assets/projectiles/bullets/14.png" id="1_7xy8q"]
+[ext_resource type="Script" uid="uid://bo5llh6yjq7iy" path="res://scripts/fastbullet.gd" id="1_fbl57"]
+[ext_resource type="Texture2D" uid="uid://ceinekktnlpup" path="res://assets/particles/spark/lightning_skill6_frame1.png" id="3_q7ttj"]
+[ext_resource type="Texture2D" uid="uid://dsc5eilq81hrc" path="res://assets/particles/spark/lightning_skill6_frame2.png" id="4_vs0rf"]
+[ext_resource type="Texture2D" uid="uid://bqvq4vw2vvl4h" path="res://assets/particles/spark/lightning_skill6_frame3.png" id="5_2rhyp"]
+[ext_resource type="Texture2D" uid="uid://don6b1cvj0brd" path="res://assets/particles/spark/lightning_skill6_frame4.png" id="6_s5sm4"]
+[ext_resource type="Texture2D" uid="uid://c2gw5b7virqnb" path="res://assets/particles/spark/lightning_skill6_frame5.png" id="7_w2k0o"]
+[ext_resource type="Texture2D" uid="uid://1x7xx4fp7xc6" path="res://assets/particles/spark/lightning_skill6_frame6.png" id="8_5gi3b"]
+[ext_resource type="Texture2D" uid="uid://catijw27j6i5q" path="res://assets/particles/spark/lightning_skill6_frame7.png" id="9_lngui"]
+[ext_resource type="Texture2D" uid="uid://c40s7t6tm56dd" path="res://assets/particles/spark/lightning_skill6_frame8.png" id="10_serht"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7xy8q"]
+radius = 14.0
+height = 152.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ggmg8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_q7ttj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vs0rf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_2rhyp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_s5sm4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_w2k0o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_5gi3b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_lngui")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_serht")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="fastbullet" type="Area2D"]
+scale = Vector2(0.3, 0.3)
+collision_layer = 2
+script = ExtResource("1_fbl57")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_7xy8q")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_7xy8q")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ggmg8")
+autoplay = "default"
+frame = 2
+frame_progress = 0.28558567

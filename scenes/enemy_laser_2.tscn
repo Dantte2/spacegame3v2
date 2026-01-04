@@ -1,0 +1,75 @@
+[gd_scene load_steps=13 format=3 uid="uid://24rkba1oshe6"]
+
+[ext_resource type="Script" uid="uid://cm3na3bsd1sfp" path="res://scripts/enemy_laser_2.gd" id="1_vmd7k"]
+[ext_resource type="Texture2D" uid="uid://cn0xcaus217jj" path="res://assets/projectiles/bullets/37.png" id="2_1op6x"]
+[ext_resource type="PackedScene" uid="uid://djd8g6h0hxqfk" path="res://scenes/flakboom.tscn" id="2_05fer"]
+[ext_resource type="Texture2D" uid="uid://b0yp1lgv6pnba" path="res://assets/particles/glowing_circle.png" id="3_1op6x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1op6x"]
+atlas = ExtResource("2_1op6x")
+region = Rect2(0, 0, 288, 223)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_05fer"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1op6x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_27gip"]
+radius = 14.0
+
+[sub_resource type="Gradient" id="Gradient_05fer"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bawts"]
+gradient = SubResource("Gradient_05fer")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_m1tu4"]
+_data = [Vector2(0.015151501, 0), 0.0, 0.0, 0, 0, Vector2(0.47727275, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_daiji"]
+curve = SubResource("Curve_m1tu4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7vjdx"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(680, 20, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+scale_min = 0.099999994
+scale_max = 0.099999994
+scale_curve = SubResource("CurveTexture_daiji")
+color = Color(3, 0, 0.012, 1)
+color_ramp = SubResource("GradientTexture1D_bawts")
+
+[node name="enemy_laser2" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_vmd7k")
+flakboom_scene = ExtResource("2_05fer")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_05fer")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_27gip")
+
+[node name="Trail" type="GPUParticles2D" parent="."]
+scale = Vector2(1e-05, 1)
+amount = 50
+texture = ExtResource("3_1op6x")
+preprocess = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_7vjdx")

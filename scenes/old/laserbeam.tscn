@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://c41mcjxbatlcw"]
+
+[ext_resource type="Script" uid="uid://mjflv8ak71p3" path="res://scripts/laserbeam.gd" id="1_2afa0"]
+[ext_resource type="Texture2D" uid="uid://ca23sv6yvnml" path="res://assets/player/laserturrets/turret_02_beam_01_anim.png" id="1_ws5b4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2afa0"]
+atlas = ExtResource("1_ws5b4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mptxt"]
+atlas = ExtResource("1_ws5b4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqsdt"]
+atlas = ExtResource("1_ws5b4")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q0idm"]
+atlas = ExtResource("1_ws5b4")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ad65a"]
+atlas = ExtResource("1_ws5b4")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qcymc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2afa0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mptxt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqsdt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q0idm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ad65a")
+}],
+"loop": true,
+"name": &"laser",
+"speed": 20.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ws5b4"]
+size = Vector2(667, 10)
+
+[node name="laserbeam" type="Area2D"]
+script = ExtResource("1_2afa0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(318, 1.12976e-12)
+rotation = 1.5708
+scale = Vector2(2.21715, 20.8624)
+sprite_frames = SubResource("SpriteFrames_qcymc")
+animation = &"laser"
+frame = 3
+frame_progress = 0.876189
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(317.5, 0)
+shape = SubResource("RectangleShape2D_ws5b4")

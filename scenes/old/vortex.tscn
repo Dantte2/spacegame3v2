@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bleglne1vhf3u"]
+
+[ext_resource type="Shader" uid="uid://d1sv3emjxrc3o" path="res://shaders/vortex.gdshader" id="1_n7m2i"]
+[ext_resource type="Script" uid="uid://ckpamxx8wbncy" path="res://scripts/vortex.gd" id="1_yoatt"]
+[ext_resource type="Texture2D" uid="uid://hhf52teuvkoy" path="res://assets/enemy/enemy-z.png" id="3_yoatt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xjbpb"]
+shader = ExtResource("1_n7m2i")
+shader_parameter/ratio = 0.1
+shader_parameter/power = 3.0
+shader_parameter/min_speed = 10.0
+shader_parameter/max_speed = 90.0
+
+[node name="Vortex" type="Node2D"]
+script = ExtResource("1_yoatt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_xjbpb")
+texture = ExtResource("3_yoatt")
+
+[node name="PullArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PullArea"]
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]

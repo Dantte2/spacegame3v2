@@ -1,0 +1,143 @@
+[gd_scene load_steps=21 format=3 uid="uid://deqmb1js8tmcv"]
+
+[ext_resource type="Texture2D" uid="uid://dwq11ufbujmyt" path="res://assets/projectiles/explosion/spritesheet.png" id="1_grb1q"]
+[ext_resource type="Script" uid="uid://dje1gnumx7ty5" path="res://scripts/explosion_damage.gd" id="1_hem0v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_grb1q"]
+radius = 84.0238
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hem0v"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(0, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpto7"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(72, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmf4q"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(144, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2rci"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(216, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7lhs"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(288, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iecxx"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(360, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjsqe"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(432, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5uoem"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(504, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1cx4"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(576, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atyv7"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(648, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qdcg"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(720, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u2g3y"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(792, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dcbb"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(864, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1w80"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(936, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xt8xm"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(1008, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmht5"]
+atlas = ExtResource("1_grb1q")
+region = Rect2(1080, 0, 72, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xbieu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hem0v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qpto7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmf4q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2rci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l7lhs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iecxx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjsqe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5uoem")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1cx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atyv7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qdcg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u2g3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dcbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1w80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xt8xm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xmht5")
+}],
+"loop": false,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="ExplosionDamage" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_hem0v")
+damage = 100
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(60, 60)
+shape = SubResource("CircleShape2D_grb1q")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_xbieu")
+autoplay = "default"
+frame_progress = 1.0

@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://cy5j36fqnhgwm"]
+
+[ext_resource type="Texture2D" uid="uid://b0yp1lgv6pnba" path="res://assets/particles/glowing_circle.png" id="1_bk7mp"]
+
+[sub_resource type="Gradient" id="Gradient_daiji"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_twths"]
+gradient = SubResource("Gradient_daiji")
+
+[sub_resource type="Curve" id="Curve_hl8vi"]
+_data = [Vector2(0.015151501, 0), 0.0, 0.0, 0, 0, Vector2(0.47727275, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_xqf7g"]
+curve = SubResource("Curve_hl8vi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bawts"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(680, 20, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+radial_velocity_min = -50.000023
+radial_velocity_max = -50.000023
+gravity = Vector3(0, 0, 0)
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+scale_min = 0.29999998
+scale_max = 0.29999998
+scale_curve = SubResource("CurveTexture_xqf7g")
+color = Color(2, 0, 0.012, 1)
+color_ramp = SubResource("GradientTexture1D_twths")
+
+[node name="MuzzleFlash" type="GPUParticles2D"]
+scale = Vector2(0.040000916, 1)
+emitting = false
+amount = 50
+texture = ExtResource("1_bk7mp")
+one_shot = true
+preprocess = 1.0
+randomness = 1.0
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_bawts")

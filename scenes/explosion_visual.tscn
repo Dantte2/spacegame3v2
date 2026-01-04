@@ -1,0 +1,59 @@
+[gd_scene load_steps=13 format=3 uid="uid://bwynyajuv30xl"]
+
+[ext_resource type="Texture2D" uid="uid://6itnfpw7ns1x" path="res://assets/projectiles/explosion/Circle_explosion1.png" id="1_8fcq8"]
+[ext_resource type="Script" uid="uid://be0m4nlomvpi1" path="res://scripts/explosion_visual.gd" id="1_jtx3v"]
+[ext_resource type="Texture2D" uid="uid://tburkkw0vxna" path="res://assets/projectiles/explosion/Circle_explosion2.png" id="2_jtx3v"]
+[ext_resource type="Texture2D" uid="uid://mc3w1i25l8m1" path="res://assets/projectiles/explosion/Circle_explosion3.png" id="3_ovp8x"]
+[ext_resource type="Texture2D" uid="uid://bjljt5k815c6n" path="res://assets/projectiles/explosion/Circle_explosion4.png" id="4_ceu6f"]
+[ext_resource type="Texture2D" uid="uid://dc5ieegfw04fe" path="res://assets/projectiles/explosion/Circle_explosion5.png" id="5_3prr5"]
+[ext_resource type="Texture2D" uid="uid://cqvy2krjsw8dk" path="res://assets/projectiles/explosion/Circle_explosion6.png" id="6_e38s4"]
+[ext_resource type="Texture2D" uid="uid://cphl4ytiy41a3" path="res://assets/projectiles/explosion/Circle_explosion7.png" id="7_d14mq"]
+[ext_resource type="Texture2D" uid="uid://bjgsauqogw1re" path="res://assets/projectiles/explosion/Circle_explosion8.png" id="8_tsnf4"]
+[ext_resource type="Texture2D" uid="uid://cvk4ttximf3cs" path="res://assets/projectiles/explosion/Circle_explosion9.png" id="9_1qnyo"]
+[ext_resource type="Texture2D" uid="uid://bb0b1t12irnfw" path="res://assets/projectiles/explosion/Circle_explosion10.png" id="10_h57ip"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jjnn5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8fcq8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_jtx3v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ovp8x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ceu6f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_3prr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_e38s4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_d14mq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_tsnf4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_1qnyo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_h57ip")
+}],
+"loop": false,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="ExplosionVisual" type="Node2D"]
+script = ExtResource("1_jtx3v")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jjnn5")
+frame = 9
+frame_progress = 1.0

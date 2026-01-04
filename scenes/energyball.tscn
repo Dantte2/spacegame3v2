@@ -1,0 +1,65 @@
+[gd_scene load_steps=13 format=3 uid="uid://bcn617637g767"]
+
+[ext_resource type="Script" uid="uid://divjk7xid6mwi" path="res://scripts/energyball.gd" id="1_p4fjd"]
+[ext_resource type="Texture2D" uid="uid://cxxdoktc3pnor" path="res://assets/projectiles/bullets/02.png" id="1_ukylf"]
+[ext_resource type="Texture2D" uid="uid://ceinekktnlpup" path="res://assets/particles/spark/lightning_skill6_frame1.png" id="3_p4fjd"]
+[ext_resource type="Texture2D" uid="uid://dsc5eilq81hrc" path="res://assets/particles/spark/lightning_skill6_frame2.png" id="4_idf07"]
+[ext_resource type="Texture2D" uid="uid://bqvq4vw2vvl4h" path="res://assets/particles/spark/lightning_skill6_frame3.png" id="5_73vmb"]
+[ext_resource type="Texture2D" uid="uid://don6b1cvj0brd" path="res://assets/particles/spark/lightning_skill6_frame4.png" id="6_favfw"]
+[ext_resource type="Texture2D" uid="uid://c2gw5b7virqnb" path="res://assets/particles/spark/lightning_skill6_frame5.png" id="7_73dm5"]
+[ext_resource type="Texture2D" uid="uid://1x7xx4fp7xc6" path="res://assets/particles/spark/lightning_skill6_frame6.png" id="8_wuu7j"]
+[ext_resource type="Texture2D" uid="uid://catijw27j6i5q" path="res://assets/particles/spark/lightning_skill6_frame7.png" id="9_pnr2j"]
+[ext_resource type="Texture2D" uid="uid://c40s7t6tm56dd" path="res://assets/particles/spark/lightning_skill6_frame8.png" id="10_3etbl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ukylf"]
+radius = 14.035668
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xxvxu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_p4fjd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_idf07")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_73vmb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_favfw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_73dm5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_wuu7j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_pnr2j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_3etbl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="energyball" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_p4fjd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ukylf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ukylf")
+flip_h = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_xxvxu")
+autoplay = "default"
+frame = 2
+frame_progress = 0.36652675

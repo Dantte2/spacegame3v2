@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0von33fj3lb"]
+
+[ext_resource type="Script" uid="uid://byhsvanb3kut4" path="res://scripts/tracer.gd" id="1_o68uk"]
+[ext_resource type="Script" uid="uid://dxja2e1ipa4vu" path="res://addons/trail_2d/trail_2d.gd" id="2_6pimm"]
+
+[sub_resource type="Gradient" id="Gradient_6pimm"]
+colors = PackedColorArray(0.694761, 0.45571, 0.08745, 1, 1, 1, 1, 0)
+
+[node name="Tracer" type="Node2D"]
+script = ExtResource("1_o68uk")
+lifetime = 0.3
+
+[node name="Trail2D" type="Line2D" parent="."]
+width = 1.0
+gradient = SubResource("Gradient_6pimm")
+joint_mode = 2
+script = ExtResource("2_6pimm")
+metadata/_custom_type_script = "uid://dxja2e1ipa4vu"

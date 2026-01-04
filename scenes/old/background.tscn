@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbodtfm04dafr"]
+
+[ext_resource type="Texture2D" uid="uid://dixn0bgsrwrq0" path="res://assets/background/forest/forest_sky.png" id="1_bkp1e"]
+[ext_resource type="Texture2D" uid="uid://cnans0q5qp6ep" path="res://assets/background/forest/forest_mountain.png" id="2_y0upk"]
+[ext_resource type="Texture2D" uid="uid://w8jihumxw2m0" path="res://assets/background/forest/forest_back.png" id="3_jougr"]
+[ext_resource type="Texture2D" uid="uid://dgycmboci5d85" path="res://assets/background/forest/forest_mid.png" id="4_cbsqf"]
+[ext_resource type="Texture2D" uid="uid://bsmaddmq7ljcl" path="res://assets/background/forest/forest_short.png" id="5_wisxt"]
+
+[node name="background" type="ParallaxBackground"]
+
+[node name="sky" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+
+[node name="Sprite2D" type="Sprite2D" parent="sky"]
+texture = ExtResource("1_bkp1e")
+region_rect = Rect2(2.19458, 0, 1897.81, 1200)
+
+[node name="mountains" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.4, 0.4)
+
+[node name="Sprite2D" type="Sprite2D" parent="mountains"]
+texture = ExtResource("2_y0upk")
+region_rect = Rect2(-0.0104942, 0, 3800.01, 2400)
+
+[node name="treesfar" type="ParallaxLayer" parent="."]
+visible = false
+motion_scale = Vector2(0.6, 0.6)
+
+[node name="Sprite2D" type="Sprite2D" parent="treesfar"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_jougr")
+region_rect = Rect2(0.0224609, -1.83226, 3799.98, 2401.83)
+
+[node name="treesmid" type="ParallaxLayer" parent="."]
+visible = false
+motion_scale = Vector2(0.8, 0.8)
+
+[node name="Sprite2D" type="Sprite2D" parent="treesmid"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_cbsqf")
+region_rect = Rect2(0.203773, 0, 3799.8, 2400)
+
+[node name="treesclose" type="ParallaxLayer" parent="."]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="treesclose"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_wisxt")
+region_rect = Rect2(0.0301933, 0, 3799.97, 2400)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-363, -469)
+zoom = Vector2(0.7, 0.7)

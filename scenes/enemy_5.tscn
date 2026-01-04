@@ -1,0 +1,77 @@
+[gd_scene load_steps=12 format=3 uid="uid://qy4dmmwesp4w"]
+
+[ext_resource type="Texture2D" uid="uid://ccdyqcmbwq5nm" path="res://assets/enemy/Ship2/Ship2.png" id="1_35jhg"]
+[ext_resource type="Script" uid="uid://uk2ox16pn3b" path="res://scripts/enemy_5.gd" id="1_bh3pa"]
+[ext_resource type="PackedScene" uid="uid://bxuhiikq26ti0" path="res://scenes/fastbullet.tscn" id="2_6vohv"]
+[ext_resource type="Texture2D" uid="uid://6ffk6x6c4apk" path="res://assets/enemy/Ship2/Exhaust/Turbo_flight/Exhaust1/exhaust1.png" id="2_6yonu"]
+[ext_resource type="PackedScene" uid="uid://divjny82w8yty" path="res://scenes/death_explosion.tscn" id="3_6vohv"]
+[ext_resource type="Texture2D" uid="uid://bix8j6ahajkta" path="res://assets/enemy/Ship2/Exhaust/Turbo_flight/Exhaust1/exhaust2.png" id="3_bh3pa"]
+[ext_resource type="PackedScene" uid="uid://cy5j36fqnhgwm" path="res://scenes/beam_particles_2d.tscn" id="4_t0chb"]
+[ext_resource type="Texture2D" uid="uid://f27rqepmls5x" path="res://assets/enemy/Ship2/Exhaust/Turbo_flight/Exhaust1/exhaust3.png" id="4_xwdeg"]
+[ext_resource type="Texture2D" uid="uid://cax72c6cju6bk" path="res://assets/enemy/Ship2/Exhaust/Turbo_flight/Exhaust1/exhaust4.png" id="5_t0chb"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6yonu"]
+radius = 14.0
+height = 66.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6vohv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6yonu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_bh3pa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xwdeg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_t0chb")
+}],
+"loop": true,
+"name": &"exhaust",
+"speed": 15.0
+}]
+
+[node name="enemy5" type="CharacterBody2D" groups=["enemy"]]
+scale = Vector2(1.5, 1.5)
+collision_layer = 2
+script = ExtResource("1_bh3pa")
+bullet_scene = ExtResource("2_6vohv")
+death_animation_scene = ExtResource("3_6vohv")
+muzzle_flash_scene = ExtResource("4_t0chb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_35jhg")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_6yonu")
+
+[node name="BulletSpawn" type="Node2D" parent="."]
+position = Vector2(-38.666668, 0)
+
+[node name="Exhaust" type="AnimatedSprite2D" parent="."]
+z_index = -1
+position = Vector2(44, -1)
+sprite_frames = SubResource("SpriteFrames_6vohv")
+animation = &"exhaust"
+frame_progress = 0.95337254
+flip_h = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(1920, 0)
+collide_with_areas = true
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+width = 1.5
+default_color = Color(2.0002677, 0, 0.019432921, 0.02745098)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Timer" type="Timer" parent="."]

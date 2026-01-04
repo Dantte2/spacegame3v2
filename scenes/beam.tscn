@@ -1,0 +1,87 @@
+[gd_scene load_steps=14 format=3 uid="uid://draqha76db248"]
+
+[ext_resource type="Script" uid="uid://cutyisdjus6gv" path="res://scripts/beam.gd" id="1_5ijbd"]
+[ext_resource type="Texture2D" uid="uid://b0yp1lgv6pnba" path="res://assets/particles/glowing_circle.png" id="2_hl8vi"]
+[ext_resource type="PackedScene" uid="uid://cy5j36fqnhgwm" path="res://scenes/beam_particles_2d.tscn" id="3_daiji"]
+
+[sub_resource type="Gradient" id="Gradient_hl8vi"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_daiji"]
+gradient = SubResource("Gradient_hl8vi")
+width = 64
+
+[sub_resource type="Curve" id="Curve_daiji"]
+_data = [Vector2(0.0075757504, 1), 0.0, 0.0, 0, 0, Vector2(0.4318182, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.033707857), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bawts"]
+width = 2048
+curve = SubResource("Curve_daiji")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8wlve"]
+particle_flag_disable_z = true
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_bawts")
+color = Color(2, 0, 0.012, 1)
+color_ramp = SubResource("GradientTexture1D_daiji")
+
+[sub_resource type="Gradient" id="Gradient_bawts"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8wlve"]
+gradient = SubResource("Gradient_bawts")
+width = 64
+
+[sub_resource type="Curve" id="Curve_bt3ye"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_a06w7"]
+curve = SubResource("Curve_bt3ye")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5fvdj"]
+particle_flag_disable_z = true
+spread = 50.0
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_a06w7")
+color = Color(2, 0, 0.012, 1)
+color_ramp = SubResource("GradientTexture1D_8wlve")
+
+[node name="LaserBeam2D" type="RayCast2D"]
+target_position = Vector2(1920, 0)
+collide_with_areas = true
+script = ExtResource("1_5ijbd")
+is_casting = true
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, 1788, 0)
+default_color = Color(2, 0, 0.012, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+sharp_limit = 8.0
+
+[node name="CastingParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+texture = ExtResource("2_hl8vi")
+lifetime = 0.3
+process_material = SubResource("ParticleProcessMaterial_8wlve")
+
+[node name="BeamParticles2D" parent="." instance=ExtResource("3_daiji")]
+
+[node name="CollisionParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 16
+texture = ExtResource("2_hl8vi")
+lifetime = 0.3
+process_material = SubResource("ParticleProcessMaterial_5fvdj")

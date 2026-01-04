@@ -1,0 +1,63 @@
+[gd_scene load_steps=13 format=3 uid="uid://bg0nh4fulwty8"]
+
+[ext_resource type="Script" uid="uid://04xavylk7xt8" path="res://scripts/enemy_1.gd" id="1_a1412"]
+[ext_resource type="Texture2D" uid="uid://hhf52teuvkoy" path="res://assets/enemy/enemy-z.png" id="1_tcmaw"]
+[ext_resource type="PackedScene" uid="uid://divjny82w8yty" path="res://scenes/death_explosion.tscn" id="2_ejytf"]
+[ext_resource type="PackedScene" uid="uid://2cp7mkucw1cr" path="res://scenes/enemy_laser.tscn" id="3_dq62l"]
+[ext_resource type="PackedScene" uid="uid://bc7qxoit7c3p1" path="res://scenes/ghost.tscn" id="4_d3026"]
+[ext_resource type="Texture2D" uid="uid://b0yp1lgv6pnba" path="res://assets/particles/glowing_circle.png" id="6_l21ug"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a1412"]
+radius = 28.0
+
+[sub_resource type="Gradient" id="Gradient_6nrqq"]
+colors = PackedColorArray(2, 0, 0.012, 1, 0.6, 0, 0.02, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_oweuj"]
+gradient = SubResource("Gradient_6nrqq")
+
+[sub_resource type="Curve" id="Curve_hcr21"]
+_data = [Vector2(0.19696969, 0.3595506), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_x5oq2"]
+curve = SubResource("Curve_hcr21")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m468s"]
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.099999994
+scale_curve = SubResource("CurveTexture_x5oq2")
+color_ramp = SubResource("GradientTexture1D_oweuj")
+
+[node name="enemy1" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 2
+script = ExtResource("1_a1412")
+death_animation_scene = ExtResource("2_ejytf")
+laser_scene = ExtResource("3_dq62l")
+ghost_scene = ExtResource("4_d3026")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tcmaw")
+flip_h = true
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
+shape = SubResource("CircleShape2D_a1412")
+
+[node name="BulletSpawn" type="Node2D" parent="."]
+position = Vector2(-18, 0)
+
+[node name="MuzzleFlash" type="GPUParticles2D" parent="BulletSpawn"]
+z_index = 10
+position = Vector2(1, 0)
+emitting = false
+amount = 40
+texture = ExtResource("6_l21ug")
+lifetime = 0.1
+one_shot = true
+trail_lifetime = 0.01
+trail_sections = 40
+trail_section_subdivisions = 40
+process_material = SubResource("ParticleProcessMaterial_m468s")

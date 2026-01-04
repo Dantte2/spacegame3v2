@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://caqixb4uk1em8"]
+
+[ext_resource type="Texture2D" uid="uid://bb1ppq4xj3iu2" path="res://assets/enemy/enemytower.png" id="1_hqy2m"]
+[ext_resource type="Script" uid="uid://3n5v7sdcrh5y" path="res://scripts/enemy_2.gd" id="1_oh86k"]
+[ext_resource type="PackedScene" uid="uid://bwynyajuv30xl" path="res://scenes/explosion_visual.tscn" id="2_a4ywr"]
+[ext_resource type="PackedScene" uid="uid://draqha76db248" path="res://scenes/beam.tscn" id="3_a4ywr"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fi5i3"]
+radius = 66.0
+height = 206.0
+
+[node name="enemy2" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 2
+script = ExtResource("1_oh86k")
+death_animation_scene = ExtResource("2_a4ywr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hqy2m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_fi5i3")
+
+[node name="BulletSpawn" type="Node2D" parent="."]
+position = Vector2(25, 2)
+
+[node name="LaserBeam2D" parent="BulletSpawn" instance=ExtResource("3_a4ywr")]
+target_position = Vector2(1400, 0)

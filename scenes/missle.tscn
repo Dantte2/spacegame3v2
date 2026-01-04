@@ -1,0 +1,103 @@
+[gd_scene load_steps=17 format=3 uid="uid://u0j564qjv3d5"]
+
+[ext_resource type="Texture2D" uid="uid://4gi8qom6b61l" path="res://assets/projectiles/missle/Missile02A.png" id="1_3peva"]
+[ext_resource type="Script" uid="uid://5kpg5ncjsqyp" path="res://scripts/missle.gd" id="1_faiip"]
+[ext_resource type="PackedScene" uid="uid://cxmp3ogdtcnhc" path="res://scenes/missileexplosion.tscn" id="2_2f2dy"]
+[ext_resource type="Texture2D" uid="uid://qdani7sdt563" path="res://assets/player/sprite_player_spaceship_exhaust_high.png" id="2_faiip"]
+[ext_resource type="Shader" uid="uid://fgwax52ckpq0" path="res://shaders/missle.gdshader" id="3_0cuvc"]
+[ext_resource type="Texture2D" uid="uid://b0yp1lgv6pnba" path="res://assets/particles/glowing_circle.png" id="7_epgiw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iusbo"]
+radius = 7.0
+height = 60.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2f2dy"]
+shader = ExtResource("3_0cuvc")
+shader_parameter/glow_strength = 2.0
+shader_parameter/pulse_amount = 0.3
+shader_parameter/time = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnjyy"]
+atlas = ExtResource("2_faiip")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4vge2"]
+atlas = ExtResource("2_faiip")
+region = Rect2(64, 0, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_04qyp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnjyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4vge2")
+}],
+"loop": false,
+"name": &"exhaust",
+"speed": 20.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_2f2dy"]
+offsets = PackedFloat32Array(0.06603774, 0.3220339, 1)
+colors = PackedColorArray(0.745, 1.161, 1.357, 1, 0, 0, 0, 1, 0.08468998, 0.08468992, 0.08468989, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2f2dy"]
+gradient = SubResource("Gradient_2f2dy")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_4ufnt"]
+_data = [Vector2(0.015151501, 0), 0.0, 0.0, 0, 0, Vector2(0.47727275, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_epgiw"]
+curve = SubResource("Curve_4ufnt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mrj4v"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(3100, 20, 1)
+direction = Vector3(-1, 0, 0)
+spread = 5.0
+gravity = Vector3(0, 0, 0)
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+scale_min = 0.29999998
+scale_max = 0.29999998
+scale_curve = SubResource("CurveTexture_epgiw")
+color_ramp = SubResource("GradientTexture1D_2f2dy")
+
+[node name="missle" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_faiip")
+explosion_scene = ExtResource("2_2f2dy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_3peva")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_iusbo")
+
+[node name="Exhaust" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_2f2dy")
+position = Vector2(-53, 0)
+sprite_frames = SubResource("SpriteFrames_04qyp")
+animation = &"exhaust"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+process_mode = 3
+scale = Vector2(0.017401591, 0.3571696)
+amount = 200
+texture = ExtResource("7_epgiw")
+lifetime = 0.2
+preprocess = 1.0
+fixed_fps = 60
+visibility_rect = Rect2(-5000, -1000, 2000, 2000)
+trail_sections = 29
+process_material = SubResource("ParticleProcessMaterial_mrj4v")
