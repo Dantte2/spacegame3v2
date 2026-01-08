@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dw2p8f653avv2"]
+[gd_scene load_steps=20 format=3 uid="uid://dw2p8f653avv2"]
 
 [ext_resource type="Texture2D" uid="uid://nrn1osh04ht5" path="res://assets/background/forest 1920x1080/forest_sky.png" id="1_kayp2"]
 [ext_resource type="Script" uid="uid://bg6ib4nrexb48" path="res://scripts/debugcanvas.gd" id="1_svo7y"]
@@ -13,10 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bgaxwnigmbuxe" path="res://assets/ui/bars/04.png" id="9_5ph7u"]
 [ext_resource type="PackedScene" uid="uid://dqpfyunvt0ypa" path="res://scenes/enemy_spawner.tscn" id="12_05sef"]
 [ext_resource type="PackedScene" uid="uid://qy4dmmwesp4w" path="res://scenes/enemy_5.tscn" id="13_vf3rk"]
-[ext_resource type="PackedScene" uid="uid://caqixb4uk1em8" path="res://scenes/enemy_2.tscn" id="13_wg4p5"]
-[ext_resource type="PackedScene" uid="uid://bpkiveafyhfog" path="res://scenes/enemy_3.tscn" id="14_oydge"]
-[ext_resource type="PackedScene" uid="uid://deruu8hgkc3j8" path="res://scenes/enemy_4.tscn" id="15_pleq2"]
-[ext_resource type="PackedScene" uid="uid://c7gqn3pkx6gpp" path="res://scenes/enemy_6.tscn" id="17_i54yb"]
+[ext_resource type="PackedScene" uid="uid://bpkiveafyhfog" path="res://scenes/enemy_3.tscn" id="14_i54yb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o7ao6"]
 atlas = ExtResource("9_5ph7u")
@@ -150,14 +147,15 @@ environment = SubResource("Environment_5ph7u")
 
 [node name="EnemySpawner" parent="." instance=ExtResource("12_05sef")]
 position = Vector2(20, 2)
-enemy_1 = ExtResource("7_t48sv")
-enemy_2 = ExtResource("13_wg4p5")
-enemy_3 = ExtResource("14_oydge")
-enemy_4 = ExtResource("15_pleq2")
-enemy_5 = ExtResource("13_vf3rk")
-enemy_6 = ExtResource("17_i54yb")
-top_spawn_points = Array[Vector2]([Vector2(1800, 200), Vector2(1800, 400), Vector2(1700, 600), Vector2(1650, 800)])
-right_corners = Array[Vector2]([Vector2(1800, 200)])
+enemy_scenes = Array[PackedScene]([ExtResource("7_t48sv"), ExtResource("13_vf3rk"), ExtResource("14_i54yb")])
+max_total_spawns = Array[int]([8, -1, -1, -1, -1, -1])
+spawn_intervals = Array[float]([0.0, 1.0, 1.5, 0.4, 1.5, 1.0])
+top_spawn_points = Array[Vector2]([Vector2(1800, 600), Vector2(1700, 400), Vector2(1750, 300), Vector2(1700, 800)])
+right_corners = Array[Vector2]([Vector2(1820, 130), Vector2(1750, 130), Vector2(1820, 160), Vector2(1750, 160), Vector2(1780, 140), Vector2(1850, 950), Vector2(1750, 950), Vector2(1750, 900), Vector2(1850, 900), Vector2(1785, 943)])
+back_line_points = Array[Vector2]([Vector2(1820, 488)])
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(1820, 488)
 
 [connection signal="pressed" from="debugcanvas/respawnbutton" to="debugcanvas" method="_on_respawnbutton_pressed"]
 [connection signal="pressed" from="debugcanvas/damageshieldbutton" to="debugcanvas" method="_on_damageshieldbutton_pressed"]
