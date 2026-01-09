@@ -56,6 +56,11 @@ extends Node2D
 @onready var template_portal: AnimatedSprite2D = $Portal
 
 # ==========================
+# --- SpawnLogic ---
+# ==========================
+@export var enemy_enabled: Array[bool] = [true, false, false, false, false, false]
+
+# ==========================
 # --- Runtime Variables ---
 # ==========================
 var active_on_screen: Array[int] = []
@@ -105,6 +110,12 @@ func _spawn_enemy_loop(enemy_index: int) -> void:
         return
 
     while spawner_enabled:
+        #progression check
+        if not enemy_enabled[enemy_index]:
+            await wait(0.2)
+            continue
+        
+        
         # Check total spawn limit
         if max_total_spawns[enemy_index] >= 0 and total_spawned[enemy_index] >= max_total_spawns[enemy_index]:
             return # Enemy has reached its total spawn limit
