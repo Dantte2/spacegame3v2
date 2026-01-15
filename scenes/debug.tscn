@@ -154,7 +154,7 @@ right_corners = Array[Vector2]([Vector2(1820, 130), Vector2(1750, 130), Vector2(
 back_line_points = Array[Vector2]([Vector2(1820, 488), Vector2(1803, 877), Vector2(1818, 177), Vector2(1813, 632), Vector2(1801, 717), Vector2(1820, 347)])
 front_line_points = Array[Vector2]([Vector2(1544, 741), Vector2(1565, 660), Vector2(1580, 559), Vector2(1580, 436), Vector2(1572, 345), Vector2(1537, 264)])
 
-[node name="boss1" parent="." instance=ExtResource("18_i54yb")]
+[node name="boss1" parent="." groups=["enemy"] instance=ExtResource("18_i54yb")]
 position = Vector2(1764, 525)
 
 [connection signal="pressed" from="debugcanvas/SpawnWaveButton" to="debugcanvas" method="_on_spawn_wave_button_pressed"]

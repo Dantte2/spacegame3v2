@@ -186,6 +186,7 @@ animations = [{
 }]
 
 [node name="boss1" type="CharacterBody2D"]
+scale = Vector2(2, 2)
 collision_layer = 2
 script = ExtResource("1_qrnk6")
 missile_scene = ExtResource("2_qiwaa")
@@ -196,6 +197,7 @@ texture = ExtResource("1_gu4qg")
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
+visible = false
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_gu4qg")
 
@@ -206,19 +208,47 @@ sprite_frames = SubResource("SpriteFrames_gu4qg")
 autoplay = "default"
 
 [node name="missile" type="Node2D" parent="."]
+position = Vector2(-2, -46)
 
 [node name="missilespawn1" type="Node2D" parent="missile"]
-position = Vector2(9, -29)
+position = Vector2(9.5, 3.5)
+
+[node name="missilemuzzle" type="AnimatedSprite2D" parent="missile/missilespawn1"]
+visible = false
+position = Vector2(0, -50)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_qrnk6")
+autoplay = "default"
+frame = 35
+frame_progress = 1.0
 
 [node name="missilespawn2" type="Node2D" parent="missile"]
-position = Vector2(-1, -29)
+position = Vector2(-0.5, 3)
+
+[node name="missilemuzzle" type="AnimatedSprite2D" parent="missile/missilespawn2"]
+visible = false
+position = Vector2(0, -50)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_qrnk6")
+autoplay = "default"
+frame = 35
+frame_progress = 1.0
 
 [node name="missilespawn3" type="Node2D" parent="missile"]
-position = Vector2(-10, -29)
+position = Vector2(-10.5, 3)
+
+[node name="missilemuzzle" type="AnimatedSprite2D" parent="missile/missilespawn3"]
+visible = false
+position = Vector2(0, -50)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_qrnk6")
+autoplay = "default"
+frame = 35
+frame_progress = 1.0
 
 [node name="missilemuzzle" type="AnimatedSprite2D" parent="missile"]
 visible = false
-position = Vector2(0, -83)
+position = Vector2(0, -50)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_qrnk6")
 autoplay = "default"
@@ -231,8 +261,5 @@ position = Vector2(-86, 7)
 [node name="laserspawn" type="Node2D" parent="."]
 position = Vector2(-19, 6)
 
-[node name="burstlaserspawn1" type="Node2D" parent="."]
-position = Vector2(-69, -2)
-
-[node name="burstlaserspawn2" type="Node2D" parent="."]
+[node name="burstlaserspawn" type="Node2D" parent="."]
 position = Vector2(-69, 17)
