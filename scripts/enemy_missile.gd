@@ -66,7 +66,7 @@ func _physics_process(delta):
 	# --- Rotate sprite to match velocity ---
 	rotation = velocity.angle()
 
-func _handle_hit(target):
+func _handle_hit(_target):
 	# find player script in parent chain
 	var player = target
 	while player and not player.has_method("take_damage"):

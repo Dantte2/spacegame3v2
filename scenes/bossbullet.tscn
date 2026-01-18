@@ -7,9 +7,11 @@
 radius = 12.0
 
 [node name="bossbullet" type="Area2D"]
+collision_layer = 2
 script = ExtResource("1_46tmi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_01e8w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
