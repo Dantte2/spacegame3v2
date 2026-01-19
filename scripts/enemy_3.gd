@@ -30,68 +30,68 @@ var running = true
 signal enemy_died
 
 func _ready():
-    health = max_health
-    # Randomize starting vertical direction: either up (-1) or down (1)
-    direction = 1 if randi() % 2 == 0 else -1
+	health = max_health
+	# Randomize starting vertical direction: either up (-1) or down (1)
+	direction = 1 if randi() % 2 == 0 else -1
 
 func _physics_process(delta):
-    # Movement
-    position.y += direction * vertical_speed * delta
+	# Movement
+	position.y += direction * vertical_speed * delta
 
-    # Bounce off top/bottom
-    var viewport_height = get_viewport_rect().size.y
-    if position.y >= viewport_height:
-        position.y = viewport_height
-        direction = -1
-    elif position.y <= 0:
-        position.y = 0
-        direction = 1
+	# Bounce off top/bottom
+	var viewport_height = get_viewport_rect().size.y
+	if position.y >= viewport_height:
+		position.y = viewport_height
+		direction = -1
+	elif position.y <= 0:
+		position.y = 0
+		direction = 1
 
-    # Exhaust animation
-    if not exhaust.is_playing():
-        exhaust.play("boost")
+	# Exhaust animation
+	if not exhaust.is_playing():
+		exhaust.play("boost")
 
-    # Shooting
-    fire_timer -= delta
-    if fire_timer <= 0.0:
-        fire_timer = fire_rate
-        fire_forward_cone()
+	# Shooting
+	fire_timer -= delta
+	if fire_timer <= 0.0:
+		fire_timer = fire_rate
+		fire_forward_cone()
 
 
 # --- Shooting logic ---
 func fire_forward_cone():
-    if not bullet_scene or not bullet_spawn:
-        return
+	if not bullet_scene or not bullet_spawn:
+		return
 
-    var spawn_pos = bullet_spawn.global_position
-    var center_dir = fire_direction.normalized()
+	var spawn_pos = bullet_spawn.global_position
+	var center_dir = fire_direction.normalized()
 
-    for i in range(bullets_per_shot):
-        var angle_offset = deg_to_rad(randf_range(-cone_angle/2.0, cone_angle/2.0))
-        var dir = center_dir.rotated(angle_offset)
-        var final_speed = bullet_speed * randf_range(1.0 - speed_jitter, 1.0 + speed_jitter)
+	for i in range(bullets_per_shot):
+		var angle_offset = deg_to_rad(randf_range(-cone_angle/2.0, cone_angle/2.0))
+		var dir = center_dir.rotated(angle_offset)
+		var final_speed = bullet_speed * randf_range(1.0 - speed_jitter, 1.0 + speed_jitter)
 
-        var bullet = bullet_scene.instantiate()
-        bullet.global_position = spawn_pos
-        bullet.velocity = dir * final_speed
-        bullet.rotation = dir.angle()
+		var bullet = bullet_scene.instantiate()
+		bullet.global_position = spawn_pos
+		bullet.velocity = dir * final_speed
+		bullet.rotation = dir.angle()
 
-        get_tree().current_scene.call_deferred("add_child", bullet)
+		get_tree().current_scene.call_deferred("add_child", bullet)
 
 
 # --- Damage Handling ---
 func take_damage(amount: int):
-    health -= amount
-    if health <= 0:
-        die()
+	health -= amount
+	if health <= 0:
+		die()
 
 
 func die():
-    running = false
-    emit_signal("enemy_died")
-    if death_animation_scene:
-        var anim = death_animation_scene.instantiate()
-        anim.global_position = global_position
-        get_tree().current_scene.call_deferred("add_child", anim)
+	running = false
+	emit_signal("enemy_died")
+	if death_animation_scene:
+		var anim = death_animation_scene.instantiate()
+		anim.global_position = global_position
+		get_tree().current_scene.call_deferred("add_child", anim)
 
-    queue_free()
+	queue_free()

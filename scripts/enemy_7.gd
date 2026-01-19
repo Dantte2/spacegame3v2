@@ -71,199 +71,199 @@ var reposition_timer := 0.0
 # --- Ready ---
 # ==========================
 func _ready():
-    health = max_health
-    fire_timer = 1.0 / fire_rate
-    homing_timer = homing_cooldown
-    reposition_timer = reposition_delay
+	health = max_health
+	fire_timer = 1.0 / fire_rate
+	homing_timer = homing_cooldown
+	reposition_timer = reposition_delay
 
-    var players = get_tree().get_nodes_in_group("player_body")
-    if players.size() > 0:
-        player = players[0]
+	var players = get_tree().get_nodes_in_group("player_body")
+	if players.size() > 0:
+		player = players[0]
 
 # ==========================
 # --- Physics ---
 # ==========================
 func _physics_process(delta):
-    if not player:
-        return
+	if not player:
+		return
 
-    rotate_toward_player(delta)
+	rotate_toward_player(delta)
 
-    match state:
-        State.ATTACK:
-            handle_attack(delta)
-        State.REPOSITION:
-            handle_reposition(delta)
+	match state:
+		State.ATTACK:
+			handle_attack(delta)
+		State.REPOSITION:
+			handle_reposition(delta)
 
-    move_and_slide()
+	move_and_slide()
 
 # ==========================
 # --- Rotation ---
 # ==========================
 func rotate_toward_player(delta):
-    var dir = (player.global_position - global_position).normalized()
-    rotation = lerp_angle(rotation, dir.angle(), rotation_speed * delta)
+	var dir = (player.global_position - global_position).normalized()
+	rotation = lerp_angle(rotation, dir.angle(), rotation_speed * delta)
 
 # ==========================
 # --- Attack State ---
 # ==========================
 func handle_attack(delta):
-    velocity = Vector2.ZERO
+	velocity = Vector2.ZERO
 
-    fire_timer -= delta
-    if fire_timer <= 0.0:
-        burst_remaining = burst_count
-        burst_timer = 0.0
-        fire_timer = 1.0 / fire_rate
+	fire_timer -= delta
+	if fire_timer <= 0.0:
+		burst_remaining = burst_count
+		burst_timer = 0.0
+		fire_timer = 1.0 / fire_rate
 
-    if burst_remaining > 0:
-        burst_timer -= delta
-        if burst_timer <= 0.0:
-            shoot_normal_bullet()
-            burst_remaining -= 1
-            burst_timer = burst_delay
+	if burst_remaining > 0:
+		burst_timer -= delta
+		if burst_timer <= 0.0:
+			shoot_normal_bullet()
+			burst_remaining -= 1
+			burst_timer = burst_delay
 
-    homing_timer -= delta
-    if homing_timer <= 0.0:
-        shoot_homing_bullets()
-        homing_timer = homing_cooldown
+	homing_timer -= delta
+	if homing_timer <= 0.0:
+		shoot_homing_bullets()
+		homing_timer = homing_cooldown
 
-    if burst_remaining == 0:
-        reposition_timer -= delta
-        if reposition_timer <= 0.0:
-            start_reposition()
+	if burst_remaining == 0:
+		reposition_timer -= delta
+		if reposition_timer <= 0.0:
+			start_reposition()
 
 # ==========================
 # --- Reposition State ---
 # ==========================
 func handle_reposition(_delta):
-    var to_target = target_pos - global_position
-    var dist = to_target.length()
+	var to_target = target_pos - global_position
+	var dist = to_target.length()
 
-    if dist < 15.0:
-        velocity = Vector2.ZERO
-        state = State.ATTACK
-        reposition_timer = reposition_delay
-        return
+	if dist < 15.0:
+		velocity = Vector2.ZERO
+		state = State.ATTACK
+		reposition_timer = reposition_delay
+		return
 
-    var speed_factor = clamp(dist / 300.0, 0.25, 1.0)
-    velocity = to_target.normalized() * reposition_speed * speed_factor
+	var speed_factor = clamp(dist / 300.0, 0.25, 1.0)
+	velocity = to_target.normalized() * reposition_speed * speed_factor
 
 # ==========================
 # --- Reposition Logic ---
 # ==========================
 func start_reposition():
-    if state == State.REPOSITION:
-        return
+	if state == State.REPOSITION:
+		return
 
-    state = State.REPOSITION
+	state = State.REPOSITION
 
-    choose_reposition_target()
-    await get_tree().create_timer(second_reposition_delay).timeout
-    choose_reposition_target()
+	choose_reposition_target()
+	await get_tree().create_timer(second_reposition_delay).timeout
+	choose_reposition_target()
 
 
 func choose_reposition_target():
-    spawn_hologram()
+	spawn_hologram()
 
-    var vp_rect = get_viewport().get_visible_rect()
-    var padding := 60
+	var vp_rect = get_viewport().get_visible_rect()
+	var padding := 60
 
-    var predicted_player_pos = player.global_position
-    if player is CharacterBody2D:
-        predicted_player_pos += player.velocity * 0.4
+	var predicted_player_pos = player.global_position
+	if player is CharacterBody2D:
+		predicted_player_pos += player.velocity * 0.4
 
-    var forward_dir = sign(player.scale.x)
-    if forward_dir == 0:
-        forward_dir = 1
+	var forward_dir = sign(player.scale.x)
+	if forward_dir == 0:
+		forward_dir = 1
 
-    var x_dist = randf_range(min_distance, max_distance)
-    var target_x = predicted_player_pos.x + forward_dir * x_dist
-    var target_y = predicted_player_pos.y + randf_range(-250.0, 250.0)
+	var x_dist = randf_range(min_distance, max_distance)
+	var target_x = predicted_player_pos.x + forward_dir * x_dist
+	var target_y = predicted_player_pos.y + randf_range(-250.0, 250.0)
 
-    target_x = clamp(
-        target_x,
-        vp_rect.position.x + padding,
-        vp_rect.position.x + vp_rect.size.x - padding
-    )
+	target_x = clamp(
+		target_x,
+		vp_rect.position.x + padding,
+		vp_rect.position.x + vp_rect.size.x - padding
+	)
 
-    target_y = clamp(
-        target_y,
-        vp_rect.position.y + padding,
-        vp_rect.position.y + vp_rect.size.y - padding
-    )
+	target_y = clamp(
+		target_y,
+		vp_rect.position.y + padding,
+		vp_rect.position.y + vp_rect.size.y - padding
+	)
 
-    target_pos = Vector2(target_x, target_y)
+	target_pos = Vector2(target_x, target_y)
 
 # ==========================
 # --- Hologram ---
 # ==========================
 func spawn_hologram():
-    if not hologram_scene:
-        return
+	if not hologram_scene:
+		return
 
-    var holo = hologram_scene.instantiate()
-    holo.global_position = global_position
-    holo.rotation = rotation
-    holo.scale = scale
-    holo.z_index = z_index - 1
+	var holo = hologram_scene.instantiate()
+	holo.global_position = global_position
+	holo.rotation = rotation
+	holo.scale = scale
+	holo.z_index = z_index - 1
 
-    get_tree().current_scene.add_child(holo)
+	get_tree().current_scene.add_child(holo)
 
 # ==========================
 # --- Normal Bullet ---
 # ==========================
 func shoot_normal_bullet():
-    if not normal_bullet_scene or not has_node("BulletSpawn1"):
-        return
+	if not normal_bullet_scene or not has_node("BulletSpawn1"):
+		return
 
-    var spawn = $BulletSpawn1
-    var angle_offset = randf_range(
-        -deg_to_rad(bullet_spread) * 0.5,
-        deg_to_rad(bullet_spread) * 0.5
-    )
+	var spawn = $BulletSpawn1
+	var angle_offset = randf_range(
+		-deg_to_rad(bullet_spread) * 0.5,
+		deg_to_rad(bullet_spread) * 0.5
+	)
 
-    var bullet = normal_bullet_scene.instantiate()
-    bullet.global_position = spawn.global_position
-    bullet.velocity = Vector2.RIGHT.rotated(rotation + angle_offset) * normal_bullet_speed
-    bullet.rotation = bullet.velocity.angle()
+	var bullet = normal_bullet_scene.instantiate()
+	bullet.global_position = spawn.global_position
+	bullet.velocity = Vector2.RIGHT.rotated(rotation + angle_offset) * normal_bullet_speed
+	bullet.rotation = bullet.velocity.angle()
 
-    get_tree().current_scene.add_child(bullet)
+	get_tree().current_scene.add_child(bullet)
 
 # ==========================
 # --- Homing Bullets ---
 # ==========================
 func shoot_homing_bullets():
-    var spawns = [$BulletSpawn2, $BulletSpawn3]
+	var spawns = [$BulletSpawn2, $BulletSpawn3]
 
-    for i in range(min(homing_bullet_count, spawns.size())):
-        var spawn = spawns[i]
-        if not spawn or not homing_bullet_scene:
-            continue
+	for i in range(min(homing_bullet_count, spawns.size())):
+		var spawn = spawns[i]
+		if not spawn or not homing_bullet_scene:
+			continue
 
-        var hb = homing_bullet_scene.instantiate()
-        hb.global_position = spawn.global_position
-        hb.initial_direction = Vector2.RIGHT.rotated(
-            rotation + deg_to_rad(homing_barrel_angles[i])
-        )
-        hb.speed = homing_bullet_speed
+		var hb = homing_bullet_scene.instantiate()
+		hb.global_position = spawn.global_position
+		hb.initial_direction = Vector2.RIGHT.rotated(
+			rotation + deg_to_rad(homing_barrel_angles[i])
+		)
+		hb.speed = homing_bullet_speed
 
-        get_tree().current_scene.add_child(hb)
+		get_tree().current_scene.add_child(hb)
 
 # ==========================
 # --- Damage / Death ---
 # ==========================
 func take_damage(amount: int):
-    health -= amount
-    if health <= 0:
-        die()
+	health -= amount
+	if health <= 0:
+		die()
 
 func die():
-    emit_signal("enemy_died")
+	emit_signal("enemy_died")
 
-    if death_animation_scene:
-        var anim = death_animation_scene.instantiate()
-        anim.global_position = global_position
-        get_tree().current_scene.call_deferred("add_child", anim)
+	if death_animation_scene:
+		var anim = death_animation_scene.instantiate()
+		anim.global_position = global_position
+		get_tree().current_scene.call_deferred("add_child", anim)
 
-    queue_free()
+	queue_free()
