@@ -1,0 +1,69 @@
+[gd_scene load_steps=15 format=3 uid="uid://dvoynrvd5hcmi"]
+
+[ext_resource type="Script" uid="uid://bqibt687sy8ej" path="res://scripts/bossmissileexplosion.gd" id="1_5cjrf"]
+[ext_resource type="Texture2D" uid="uid://dc27kykwb033c" path="res://assets/projectiles/explosion/shockboom/Shot4_exp1.png" id="1_futa0"]
+[ext_resource type="Texture2D" uid="uid://4vydwn8o5sfa" path="res://assets/projectiles/explosion/shockboom/Shot4_exp2.png" id="2_5cjrf"]
+[ext_resource type="Texture2D" uid="uid://b1lm2ynqeyeiy" path="res://assets/projectiles/explosion/shockboom/Shot4_exp3.png" id="3_j170w"]
+[ext_resource type="Texture2D" uid="uid://6ybdixuqlv1w" path="res://assets/projectiles/explosion/shockboom/Shot4_exp4.png" id="4_4wiv0"]
+[ext_resource type="Texture2D" uid="uid://p7oohwhh3cf2" path="res://assets/projectiles/explosion/shockboom/Shot4_exp5.png" id="5_7pnjl"]
+[ext_resource type="Texture2D" uid="uid://clurocc6am1kf" path="res://assets/projectiles/explosion/shockboom/Shot4_exp6.png" id="6_dgodw"]
+[ext_resource type="Texture2D" uid="uid://bpmks4aeh27vo" path="res://assets/projectiles/explosion/shockboom/Shot4_exp7.png" id="7_r8mnh"]
+[ext_resource type="Texture2D" uid="uid://cmk1q22donwx6" path="res://assets/projectiles/explosion/shockboom/Shot4_exp8.png" id="8_ow554"]
+[ext_resource type="Texture2D" uid="uid://bmnxdswlrd81r" path="res://assets/projectiles/explosion/shockboom/Shot4_exp9.png" id="9_bb5r1"]
+[ext_resource type="Texture2D" uid="uid://5bw0oelcvjxm" path="res://assets/projectiles/explosion/shockboom/Shot4_exp10.png" id="10_4gk0l"]
+[ext_resource type="Texture2D" uid="uid://sssouh4oodtr" path="res://assets/projectiles/explosion/shockboom/Shot4_exp11.png" id="11_ymuvv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lflna"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_futa0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_5cjrf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_j170w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_4wiv0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7pnjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_dgodw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_r8mnh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ow554")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_bb5r1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_4gk0l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ymuvv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o7dkg"]
+radius = 97.00516
+
+[node name="bossmissileexplosion" type="Area2D"]
+script = ExtResource("1_5cjrf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-54, -2)
+sprite_frames = SubResource("SpriteFrames_lflna")
+frame_progress = 0.73860645
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_o7dkg")

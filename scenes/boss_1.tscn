@@ -300,3 +300,11 @@ position = Vector2(7.5, 37)
 
 [node name="minespawn3" type="Node2D" parent="mines"]
 position = Vector2(20, 37.5)
+
+[node name="patterncmissile" type="Node2D" parent="."]
+
+[node name="PatternCmissileSpawn1" type="Node2D" parent="patterncmissile"]
+position = Vector2(-22.5, -13.5)
+
+[node name="PatternCmissileSpawn2" type="Node2D" parent="patterncmissile"]
+position = Vector2(7, -13.5)
