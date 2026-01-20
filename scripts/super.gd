@@ -39,126 +39,126 @@ var exploded := false
 # READY
 # --------------------------------------------------
 func _ready():
-    if sprite:
-        sprite.play()
+	if sprite:
+		sprite.play()
 
-    if trail:
-        trail.emitting = false
+	if trail:
+		trail.emitting = false
 
-    start_lifetime_timer()
+	start_lifetime_timer()
 
 # --------------------------------------------------
 # LIFETIME
 # --------------------------------------------------
 func start_lifetime_timer():
-    await get_tree().create_timer(lifetime).timeout
-    if is_inside_tree() and not exploded:
-        explode()
+	await get_tree().create_timer(lifetime).timeout
+	if is_inside_tree() and not exploded:
+		explode()
 
 # --------------------------------------------------
 # PHYSICS LOOP
 # --------------------------------------------------
 func _physics_process(delta):
-    state_timer += delta
+	state_timer += delta
 
-    match state:
+	match state:
 
-        # ------------------------------------------
-        # DROP PHASE (ALWAYS DOWN)
-        # ------------------------------------------
-        State.DROPPING:
-            global_position.y += drop_speed * delta
+		# ------------------------------------------
+		# DROP PHASE (ALWAYS DOWN)
+		# ------------------------------------------
+		State.DROPPING:
+			global_position.y += drop_speed * delta
 
-            if state_timer >= drop_time:
-                state = State.HOMING
-                state_timer = 0.0
-                current_speed = initial_speed
+			if state_timer >= drop_time:
+				state = State.HOMING
+				state_timer = 0.0
+				current_speed = initial_speed
 
-                # Start trail exactly when forward motion begins
-                if trail:
-                    trail.emitting = true
+				# Start trail exactly when forward motion begins
+				if trail:
+					trail.emitting = true
 
-        # ------------------------------------------
-        # HOMING + ACCELERATION
-        # ------------------------------------------
-        State.HOMING:
-            update_target()
-            update_rotation(delta)
-            update_speed(delta)
-            move_forward(delta)
+		# ------------------------------------------
+		# HOMING + ACCELERATION
+		# ------------------------------------------
+		State.HOMING:
+			update_target()
+			update_rotation(delta)
+			update_speed(delta)
+			move_forward(delta)
 
 # --------------------------------------------------
 # TARGETING
 # --------------------------------------------------
 func update_target():
-    if target and target.is_inside_tree():
-        return
-    target = get_closest_enemy()
+	if target and target.is_inside_tree():
+		return
+	target = get_closest_enemy()
 
 func get_closest_enemy() -> Node2D:
-    var closest: Node2D = null
-    var min_dist := homing_radius
+	var closest: Node2D = null
+	var min_dist := homing_radius
 
-    for e in get_tree().get_nodes_in_group("enemy"):
-        if not e.is_inside_tree():
-            continue
+	for e in get_tree().get_nodes_in_group("enemy"):
+		if not e.is_inside_tree():
+			continue
 
-        var dist = global_position.distance_to(e.global_position)
-        if dist < min_dist:
-            min_dist = dist
-            closest = e
+		var dist = global_position.distance_to(e.global_position)
+		if dist < min_dist:
+			min_dist = dist
+			closest = e
 
-    return closest
+	return closest
 
 # --------------------------------------------------
 # MOVEMENT
 # --------------------------------------------------
 func update_rotation(delta):
-    if not target:
-        return
+	if not target:
+		return
 
-    var desired_angle = (target.global_position - global_position).angle()
-    rotation = lerp_angle(rotation, desired_angle, turn_speed * delta)
+	var desired_angle = (target.global_position - global_position).angle()
+	rotation = lerp_angle(rotation, desired_angle, turn_speed * delta)
 
 func update_speed(delta):
-    current_speed += acceleration * delta
-    current_speed = min(current_speed, max_speed)
+	current_speed += acceleration * delta
+	current_speed = min(current_speed, max_speed)
 
 func move_forward(delta):
-    var velocity = Vector2(current_speed, 0).rotated(rotation)
-    var collision = move_and_collide(velocity * delta)
-    if collision:
-        handle_collision(collision)
+	var velocity = Vector2(current_speed, 0).rotated(rotation)
+	var collision = move_and_collide(velocity * delta)
+	if collision:
+		handle_collision(collision)
 
 # --------------------------------------------------
 # COLLISION
 # --------------------------------------------------
 func handle_collision(collision: KinematicCollision2D):
-    if exploded:
-        return
+	if exploded:
+		return
 
-    exploded = true
-    var body = collision.get_collider()
+	exploded = true
+	var body = collision.get_collider()
 
-    if collision_delay > 0.0:
-        await get_tree().create_timer(collision_delay).timeout
+	if collision_delay > 0.0:
+		await get_tree().create_timer(collision_delay).timeout
 
-    if body and body.is_in_group("enemy"):
-        if body.has_method("take_damage"):
-            body.take_damage(damage)
+	if body and body.is_in_group("enemy"):
+		if body.has_method("take_damage"):
+			body.take_damage(damage)
 
-    explode()
+	explode()
 
 # --------------------------------------------------
 # EXPLOSION
 # --------------------------------------------------
 func explode():
-    if not is_inside_tree():
-        return
+	if not is_inside_tree():
+		return
 
-    if explosion_scene:
-        var explosion = explosion_scene.instantiate()
-        explosion.global_position = global_position
-        get_tree().current_scene.add_child(explosion)
+	if explosion_scene:
+		var explosion = explosion_scene.instantiate()
+		explosion.global_position = global_position
+		get_tree().current_scene.add_child(explosion)
 
-    queue_free()
+	queue_free()
