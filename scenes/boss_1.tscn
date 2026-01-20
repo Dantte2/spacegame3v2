@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://bf17677gcby1o"]
+[gd_scene load_steps=53 format=3 uid="uid://bf17677gcby1o"]
 
 [ext_resource type="Texture2D" uid="uid://xbwatxbvej5u" path="res://assets/enemy/elite_enemy/3/Boss_ship5.png" id="1_gu4qg"]
 [ext_resource type="Script" uid="uid://cmiy0ikmab8q5" path="res://scripts/boss_1.gd" id="1_qrnk6"]
@@ -44,6 +44,11 @@
 [ext_resource type="Texture2D" uid="uid://dcaqtu1rgj3n6" path="res://assets/particles/misislemuzzle/0034.png" id="39_idrn0"]
 [ext_resource type="Texture2D" uid="uid://diakd1h8qxno8" path="res://assets/particles/misislemuzzle/0035.png" id="40_don38"]
 [ext_resource type="Texture2D" uid="uid://bkqo04ne1og2m" path="res://assets/particles/misislemuzzle/0036.png" id="41_7htlg"]
+[ext_resource type="Script" uid="uid://dqj0owpjverf3" path="res://scripts/pattern_a.gd" id="45_r2q6c"]
+[ext_resource type="Script" uid="uid://c5ye0ukwljwfq" path="res://scripts/pattern_b.gd" id="46_xfwgx"]
+[ext_resource type="Script" uid="uid://buab0spmpmbqe" path="res://scripts/cone_shot.gd" id="47_txaef"]
+[ext_resource type="PackedScene" uid="uid://dfamsbdj8dklj" path="res://scenes/bossbigbeam.tscn" id="47_wvu6w"]
+[ext_resource type="PackedScene" uid="uid://dkg1h8viuqdb8" path="res://scenes/bossbullet.tscn" id="48_y6nd6"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gu4qg"]
 radius = 45.0
@@ -189,12 +194,33 @@ animations = [{
 scale = Vector2(2, 2)
 collision_layer = 2
 script = ExtResource("1_qrnk6")
-missile_scene = ExtResource("2_qiwaa")
-laser_scene = ExtResource("2_2ng8k")
 
 [node name="mainsprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_gu4qg")
 flip_h = true
+
+[node name="Scripts" type="Node2D" parent="."]
+
+[node name="PatternA" type="Node2D" parent="Scripts" node_paths=PackedStringArray("missile_spawns", "muzzle_flash")]
+script = ExtResource("45_r2q6c")
+missile_scene = ExtResource("2_qiwaa")
+laser_scene = ExtResource("2_2ng8k")
+missile_spawns = [NodePath("../../missile/missilespawn1"), NodePath("../../missile/missilespawn2"), NodePath("../../missile/missilespawn3")]
+muzzle_flash = NodePath("../../missile/missilemuzzle")
+boss_node = NodePath("../..")
+
+[node name="PatternB" type="Node2D" parent="Scripts" node_paths=PackedStringArray("bulletspawn")]
+script = ExtResource("46_xfwgx")
+beam_b_scene = ExtResource("47_wvu6w")
+bulletspawn = NodePath("../../bulletspawn")
+boss_node = NodePath("../..")
+
+[node name="ConeShot" type="Node2D" parent="Scripts"]
+script = ExtResource("47_txaef")
+bullet_scene = ExtResource("48_y6nd6")
+
+[node name="ConeShotSpawn" type="Node2D" parent="Scripts/ConeShot"]
+position = Vector2(-19, 6)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
 visible = false
@@ -257,9 +283,6 @@ frame_progress = 1.0
 
 [node name="bulletspawn" type="Node2D" parent="."]
 position = Vector2(-86, 7)
-
-[node name="coneshotspawn" type="Node2D" parent="."]
-position = Vector2(-19, 6)
 
 [node name="hominlaserspawn" type="Node2D" parent="."]
 position = Vector2(-65.5, 18.5)
