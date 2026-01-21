@@ -10,18 +10,13 @@ extends Node
 @export var move_speed: float = 800.0
 @export var telegraph_duration: float = 0.5
 @export var delay_before_fire: float = 0.5
-@export var explosion_random_radius: float = 20.0  # random offset for missiles
-@export var missiles_per_attack: int = 4  # number of missiles per pattern
 
-# Base target positions
-@export var base_positions: Array[Vector2] = [
-    Vector2(350, 185),
-    Vector2(350, 535),
-    Vector2(350, 885),
-    Vector2(585, 225),
-    Vector2(735, 525),
-    Vector2(501, 877)
-]
+@export var missiles_per_attack: int = 6        # number of missiles per volley
+@export var volleys: int = 2                    # number of volleys
+@export var delay_between_volleys: float = 1.0  # seconds between volleys
+
+# Base target positions (world coordinates)
+@export var base_positions: Array[Vector2]
 
 # Missile spawn points
 @export var spawn1_path: NodePath
@@ -48,13 +43,9 @@ func _ready() -> void:
 # ====================
 # PUBLIC
 # ====================
-@export var volleys: int = 2          # number of times to fire the pattern
-@export var delay_between_volleys: float = 1.0  # seconds between volleys
-
 func start_pattern(_target: Node2D = null) -> void:
     for v in range(volleys):
         await fire_pattern()
-        # Delay before next volley, unless it’s the last one
         if v < volleys - 1:
             await get_tree().create_timer(delay_between_volleys).timeout
 
@@ -66,28 +57,17 @@ func fire_pattern() -> void:
         push_error("Pattern C: Not enough target positions")
         return
 
-    # Build a pool of targets with small random offsets
-    var pool: Array[Vector2] = []
-    for pos in base_positions:
-        # Add 3 variations around each base position
-        for i in range(3):
-            var offset = Vector2(
-                randf() * explosion_random_radius * 2 - explosion_random_radius,
-                randf() * explosion_random_radius * 2 - explosion_random_radius
-            )
-            pool.append(pos + offset)
-
-    # Remove last used targets
-    var choices = pool.duplicate()
+    # Create a copy of base_positions and remove last used targets
+    var choices = base_positions.duplicate()
     for t in _last_targets:
         if t in choices:
             choices.erase(t)
 
     # Fallback if not enough targets
     if choices.size() < missiles_per_attack:
-        choices = pool.duplicate()
+        choices = base_positions.duplicate()
 
-    # Shuffle and pick
+    # Shuffle and pick targets
     choices.shuffle()
     var targets: Array[Vector2] = []
     for i in range(missiles_per_attack):
@@ -103,12 +83,11 @@ func fire_pattern() -> void:
     # Delay before firing
     await get_tree().create_timer(delay_before_fire).timeout
 
-    # Fire missiles with stagger
+    # Fire missiles with small stagger
     for i in range(targets.size()):
         var spawn_pos = spawn1.global_position if i % 2 == 0 else spawn2.global_position
         _fire_projectile(spawn_pos, targets[i])
         await get_tree().create_timer(0.15).timeout
-
 
 # ====================
 # TELEGRAPH
@@ -138,5 +117,5 @@ func _fire_projectile(spawn_pos: Vector2, target_pos: Vector2) -> void:
     if "move_speed" in proj:
         proj.move_speed = move_speed
     if "set_target" in proj:
-        proj.set_target(target_pos)  # each missile has its own copy of the target
+        proj.set_target(target_pos)
     get_tree().current_scene.add_child(proj)

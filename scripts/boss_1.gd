@@ -3,7 +3,7 @@ extends CharacterBody2D
 # ====================
 # EXPORTS
 # ====================
-@export var force_pattern: int = -1 # -1 = normal cycle, 0 = Pattern A, 1 = Pattern B, 2 = Pattern C
+@export var force_pattern: int = 2 # -1 = normal cycle, 0 = Pattern A, 1 = Pattern B, 2 = Pattern C
 @export var fire_rate: float = 5.0
 
 # ====================

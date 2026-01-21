@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var rise_height: float = 150.0
 @export var rise_time: float = 0.3
-@export var move_speed: float = 800.0
+@export var move_speed: float = 950.0
 @export var explosion_scene: PackedScene  
 
 var target_position: Vector2

@@ -222,6 +222,7 @@ boss_node = NodePath("../..")
 script = ExtResource("8_jgv65")
 projectile_scene = ExtResource("9_jmxpo")
 telegraph_scene = ExtResource("10_xxict")
+base_positions = Array[Vector2]([Vector2(197, 946), Vector2(471, 524), Vector2(204, 157), Vector2(461, 317), Vector2(226, 530), Vector2(468, 756), Vector2(217, 728), Vector2(220, 354), Vector2(1329, 923), Vector2(1290, 373), Vector2(1277, 91), Vector2(1176, 671), Vector2(797, 884), Vector2(782, 104), Vector2(945, 290), Vector2(691, 378), Vector2(761, 679)])
 spawn1_path = NodePath("../../PatternCMissile/PatternCMissileSpawn1")
 spawn2_path = NodePath("../../PatternCMissile/PatternCMissileSpawn2")
 
@@ -231,6 +232,8 @@ bullet_scene = ExtResource("48_y6nd6")
 
 [node name="ConeShotSpawn" type="Node2D" parent="Scripts/ConeShot"]
 position = Vector2(-19, 6)
+
+[node name="Mines" type="Node2D" parent="Scripts"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
 visible = false
