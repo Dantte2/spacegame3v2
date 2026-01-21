@@ -58,6 +58,7 @@ animations = [{
 radius = 97.00516
 
 [node name="bossmissileexplosion" type="Area2D"]
+collision_layer = 2
 script = ExtResource("1_5cjrf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

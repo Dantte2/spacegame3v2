@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var rise_height: float = 80.0
 @export var rise_time: float = 0.3
 @export var move_speed: float = 800.0
+@export var explosion_scene: PackedScene  
 
 var target_position: Vector2
 var _start_position: Vector2
@@ -61,4 +62,9 @@ func _move_to_target(delta: float) -> void:
     move_and_slide()
 
 func on_reached_target() -> void:
-    pass
+    # Spawn explosion
+    if explosion_scene:
+        var explosion = explosion_scene.instantiate()
+        explosion.global_position = global_position
+        get_tree().current_scene.add_child(explosion)
+    queue_free()  # Remove the projectile after hitting
