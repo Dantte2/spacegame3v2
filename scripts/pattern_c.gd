@@ -6,14 +6,14 @@ extends Node
 @export var projectile_scene: PackedScene
 @export var telegraph_scene: PackedScene
 @export var rise_height: float = 80.0
-@export var rise_time: float = 0.3
+@export var rise_time: float = 0.5
 @export var move_speed: float = 800.0
 @export var telegraph_duration: float = 0.5
 @export var delay_before_fire: float = 0.5
 
 @export var missiles_per_attack: int = 6        # number of missiles per volley
 @export var volleys: int = 2                    # number of volleys
-@export var delay_between_volleys: float = 1.0  # seconds between volleys
+@export var delay_between_volleys: float = 2.0  # seconds between volleys
 
 # Base target positions (world coordinates)
 @export var base_positions: Array[Vector2]

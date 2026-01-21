@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var duration: float = 0.5 # How long the telegraph is visible
+@export var duration: float = 1.0 # How long the telegraph is visible
 
 @onready var sprite: Sprite2D = $Sprite2D
 
