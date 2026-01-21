@@ -215,6 +215,8 @@ beam_b_scene = ExtResource("47_wvu6w")
 bulletspawn = NodePath("../../bulletspawn")
 boss_node = NodePath("../..")
 
+[node name="PatternC" type="Node2D" parent="Scripts"]
+
 [node name="ConeShot" type="Node2D" parent="Scripts"]
 script = ExtResource("47_txaef")
 bullet_scene = ExtResource("48_y6nd6")

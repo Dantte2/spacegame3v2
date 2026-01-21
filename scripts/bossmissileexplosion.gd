@@ -1,11 +1,26 @@
 extends Area2D
 
+# Damage amount of this explosion (if needed)
+@export var damage: int = 10
 
-# Called when the node enters the scene tree for the first time.
+# AnimatedSprite reference
+@onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 func _ready() -> void:
-    pass # Replace with function body.
+    # Play the default animation
+    if anim_sprite:
+        anim_sprite.animation = "default"
+        anim_sprite.play()
+        # Connect finished signal to delete itself
+        anim_sprite.connect("animation_finished", Callable(self, "_on_animation_finished"))
 
+    # Optionally, detect bodies for damage immediately
+    connect("body_entered", Callable(self, "_on_body_entered"))
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-    pass
+func _on_animation_finished() -> void:
+    queue_free()
+
+func _on_body_entered(body: Node) -> void:
+    # Apply damage if the body has a health function
+    if body.has_method("take_damage"):
+        body.take_damage(damage)
