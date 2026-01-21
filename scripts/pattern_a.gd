@@ -24,69 +24,77 @@ extends Node2D
 # FUNCTIONS
 # ====================
 func start_pattern(player: Node2D) -> void:
-    if not boss_node:
-        push_error("PatternA: boss_node not set!")
-        return
-    var boss = get_node(boss_node)
+	if not boss_node:
+		push_error("PatternA: boss_node not set!")
+		return
+	var boss = get_node(boss_node)
 
-    # Move boss to middle Y
-    var middle_y = 500.0  # or calculate based on limits
-    await move_boss_to_y(boss, middle_y)
+	# Move boss to middle Y
+	var middle_y = 500.0  # or calculate based on limits
+	await move_boss_to_y(boss, middle_y)
 
-    # Then fire
-    await fire_missiles(player)
-    await fire_lasers()
+	# Then fire
+	await fire_missiles(player)
+	await fire_lasers()
 
 func move_boss_to_y(boss: Node2D, target_y: float) -> void:
-    while abs(boss.global_position.y - target_y) > 1.0:
-        var diff = target_y - boss.global_position.y
-        var move_amount = min(abs(diff), pattern_a_move_speed * get_process_delta_time())
-        boss.global_position.y += sign(diff) * move_amount
-        await get_tree().process_frame
-    boss.global_position.y = target_y
+	var start_y = boss.global_position.y
+	var distance = abs(target_y - start_y)
+	if distance < 1.0:
+		return
+
+	var t := 0.0
+	var duration: float = distance / pattern_a_move_speed
+
+	while t < 1.0:
+		t += get_process_delta_time() / duration
+		t = min(t, 1.0)
+		boss.global_position.y = lerp(start_y, target_y, t)
+		await get_tree().process_frame
+
 
 func fire_missiles(target: Node2D) -> void:
-    if missile_scene == null or missile_spawns.size() == 0:
-        push_error("PatternA: missile_scene or missile_spawns not set!")
-        return
+	if missile_scene == null or missile_spawns.size() == 0:
+		push_error("PatternA: missile_scene or missile_spawns not set!")
+		return
 
-    for i in range(missile_count):
-        var spawn = missile_spawns[i % missile_spawns.size()]
-        var missile = missile_scene.instantiate()
-        missile.global_position = spawn.global_position
-        missile.global_rotation = -PI / 2
-        if missile.has_method("set_target"):
-            missile.set_target(target)
-        get_tree().current_scene.add_child(missile)
+	for i in range(missile_count):
+		var spawn = missile_spawns[i % missile_spawns.size()]
+		var missile = missile_scene.instantiate()
+		missile.global_position = spawn.global_position
+		missile.global_rotation = -PI / 2
+		if missile.has_method("set_target"):
+			missile.set_target(target)
+		get_tree().current_scene.add_child(missile)
 
-        if muzzle_flash:
-            var flash = muzzle_flash.duplicate()
-            flash.global_position = spawn.global_position
-            flash.visible = true
-            get_tree().current_scene.add_child(flash)
-            flash.play()
-            flash.animation_finished.connect(Callable(flash, "queue_free"))
+		if muzzle_flash:
+			var flash = muzzle_flash.duplicate()
+			flash.global_position = spawn.global_position
+			flash.visible = true
+			get_tree().current_scene.add_child(flash)
+			flash.play()
+			flash.animation_finished.connect(Callable(flash, "queue_free"))
 
-        await get_tree().create_timer(missile_delay).timeout
+		await get_tree().create_timer(missile_delay).timeout
 
 func fire_lasers() -> void:
-    if laser_scene == null:
-        push_error("PatternA: laser_scene not set!")
-        return
+	if laser_scene == null:
+		push_error("PatternA: laser_scene not set!")
+		return
 
-    for wave in range(laser_waves):
-        var players = get_tree().get_nodes_in_group("player")
-        var player_x = players[0].global_position.x if players.size() > 0 else 0.0
-        var tracking_index = randi() % lasers_per_wave
+	for wave in range(laser_waves):
+		var players = get_tree().get_nodes_in_group("player")
+		var player_x = players[0].global_position.x if players.size() > 0 else 0.0
+		var tracking_index = randi() % lasers_per_wave
 
-        for i in range(lasers_per_wave):
-            var laser = laser_scene.instantiate()
-            laser.position.x = player_x if i == tracking_index else randf_range(100, 1200)
-            laser.position.y = 0
-            get_tree().current_scene.add_child(laser)
-            if laser.has_method("start_telegraph"):
-                laser.start_telegraph(laser_warning_time, laser_duration)
+		for i in range(lasers_per_wave):
+			var laser = laser_scene.instantiate()
+			laser.position.x = player_x if i == tracking_index else randf_range(100, 1200)
+			laser.position.y = 0
+			get_tree().current_scene.add_child(laser)
+			if laser.has_method("start_telegraph"):
+				laser.start_telegraph(laser_warning_time, laser_duration)
 
-        await get_tree().create_timer(laser_warning_time + laser_duration).timeout
-        if wave < laser_waves - 1:
-            await get_tree().create_timer(laser_wave_delay).timeout
+		await get_tree().create_timer(laser_warning_time + laser_duration).timeout
+		if wave < laser_waves - 1:
+			await get_tree().create_timer(laser_wave_delay).timeout

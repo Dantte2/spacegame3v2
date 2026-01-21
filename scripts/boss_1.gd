@@ -3,7 +3,7 @@ extends CharacterBody2D
 # ====================
 # EXPORTS
 # ====================
-@export var force_pattern: int = 2 # -1 = normal cycle, 0 = Pattern A, 1 = Pattern B, 2 = Pattern C
+@export var force_pattern: int = -1 # -1 = normal cycle, 0 = Pattern A, 1 = Pattern B, 2 = Pattern C
 @export var fire_rate: float = 5.0
 
 # ====================
@@ -12,7 +12,11 @@ extends CharacterBody2D
 @onready var pattern_a_node = $Scripts/PatternA
 @onready var pattern_b_node = $Scripts/PatternB
 @onready var pattern_c_node = $Scripts/PatternC  
+
+# Background attacks
 @onready var coneshot_node = $Scripts/ConeShot
+@onready var mine_dropper = $Scripts/Mines
+
 @onready var exhaust: AnimatedSprite2D = $exhaust
 
 # ====================
@@ -26,54 +30,63 @@ var pattern_index := 0
 # READY
 # ====================
 func _ready() -> void:
-    randomize()
-    if exhaust:
-        exhaust.visible = true
-        exhaust.play("default")
+	randomize()
+
+	if exhaust:
+		exhaust.visible = true
+		exhaust.play("default")
+
+	# Background systems start automatically on _ready(),
+	# but we sanity-check they exist so future phase logic is easy.
+	if coneshot_node:
+		coneshot_node.set_process(true)
+
+	if mine_dropper:
+		mine_dropper.set_process(true)
 
 # ====================
 # PROCESS
 # ====================
 func _process(delta: float) -> void:
-    if attacking:
-        return
+	if attacking:
+		return
 
-    fire_timer -= delta
-    if fire_timer <= 0.0:
-        var player = get_player()
-        if player:
-            start_attack(player)
-        fire_timer = fire_rate
+	fire_timer -= delta
+	if fire_timer <= 0.0:
+		var player = get_player()
+		if player:
+			start_attack(player)
+		fire_timer = fire_rate
 
 # ====================
 # PLAYER HELPER
 # ====================
 func get_player() -> Node2D:
-    var players = get_tree().get_nodes_in_group("player")
-    return players[0] if players.size() > 0 else null
+	var players = get_tree().get_nodes_in_group("player")
+	return players[0] if players.size() > 0 else null
 
 # ====================
-# ATTACK CONTROL
+# ATTACK CONTROL (PATTERNS ONLY)
 # ====================
 func start_attack(target: Node2D) -> void:
-    if attacking:
-        return
+	if attacking:
+		return
 
-    attacking = true
+	attacking = true
 
-    var pattern_to_run = force_pattern if force_pattern >= 0 else pattern_index
-    match pattern_to_run:
-        0:
-            if pattern_a_node:
-                await pattern_a_node.start_pattern(target)
-        1:
-            if pattern_b_node:
-                await pattern_b_node.start_pattern()
-        2:
-            if pattern_c_node:
-                await pattern_c_node.start_pattern(target)  
+	var pattern_to_run = force_pattern if force_pattern >= 0 else pattern_index
+	match pattern_to_run:
+		0:
+			if pattern_a_node:
+				await pattern_a_node.start_pattern(target)
+		1:
+			if pattern_b_node:
+				await pattern_b_node.start_pattern()
+		2:
+			if pattern_c_node:
+				await pattern_c_node.start_pattern(target)
 
-    if force_pattern < 0:
-        pattern_index = (pattern_index + 1) % 3  
+	if force_pattern < 0:
+		pattern_index = (pattern_index + 1) % 3
 
-    attacking = false
+	attacking = false

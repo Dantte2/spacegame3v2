@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://c4towvhtwxa65"]
+[gd_scene load_steps=21 format=3 uid="uid://c4towvhtwxa65"]
 
 [ext_resource type="Script" uid="uid://druaqrrx8i34b" path="res://scripts/bossminion.gd" id="1_t0iw0"]
 [ext_resource type="Texture2D" uid="uid://cxyvr4138o34k" path="res://assets/yes/pj4_scrap_metal_large_violet/frame0000.png" id="1_xfjhl"]
+[ext_resource type="PackedScene" uid="uid://bjv5ewlne64ie" path="res://scenes/explosionvisual_2.tscn" id="2_kgk0n"]
 [ext_resource type="Texture2D" uid="uid://8q48bxgfdpt2" path="res://assets/yes/pj4_scrap_metal_large_violet/frame0001.png" id="2_t0iw0"]
 [ext_resource type="Texture2D" uid="uid://dfw5lideo0ire" path="res://assets/yes/pj4_scrap_metal_large_violet/frame0002.png" id="3_kgk0n"]
 [ext_resource type="Texture2D" uid="uid://cpe274w2ww4oo" path="res://assets/yes/pj4_scrap_metal_large_violet/frame0003.png" id="4_ucpl8"]
@@ -77,12 +78,16 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_xfjhl"]
 radius = 15.033297
 
-[node name="bossminion" type="CharacterBody2D"]
+[node name="bossminion" type="CharacterBody2D" groups=["enemy"]]
+scale = Vector2(2, 2)
+collision_layer = 2
 script = ExtResource("1_t0iw0")
+death_animation_scene = ExtResource("2_kgk0n")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_p3g0s")
 frame_progress = 0.60631996
+flip_v = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_xfjhl")

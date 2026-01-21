@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://bf17677gcby1o"]
+[gd_scene load_steps=58 format=3 uid="uid://bf17677gcby1o"]
 
 [ext_resource type="Texture2D" uid="uid://xbwatxbvej5u" path="res://assets/enemy/elite_enemy/3/Boss_ship5.png" id="1_gu4qg"]
 [ext_resource type="Script" uid="uid://cmiy0ikmab8q5" path="res://scripts/boss_1.gd" id="1_qrnk6"]
@@ -18,8 +18,10 @@
 [ext_resource type="PackedScene" uid="uid://dx6k30o0vdnwj" path="res://scenes/boss_telegraph.tscn" id="10_xxict"]
 [ext_resource type="Texture2D" uid="uid://bhcesl6ro5h3y" path="res://assets/particles/misislemuzzle/0006.png" id="11_xfwgx"]
 [ext_resource type="Texture2D" uid="uid://byfbclvjr44i4" path="res://assets/particles/misislemuzzle/0007.png" id="12_txaef"]
+[ext_resource type="Script" uid="uid://dxahhqv71tk6" path="res://scripts/mines.gd" id="13_xxict"]
 [ext_resource type="Texture2D" uid="uid://bb7y1l5xnbsul" path="res://assets/particles/misislemuzzle/0008.png" id="13_y6nd6"]
 [ext_resource type="Texture2D" uid="uid://bvn6x1pf0j0wk" path="res://assets/particles/misislemuzzle/0009.png" id="14_wvu6w"]
+[ext_resource type="PackedScene" uid="uid://c4towvhtwxa65" path="res://scenes/bossminion.tscn" id="14_yhmoa"]
 [ext_resource type="Texture2D" uid="uid://b7vcudjmuwhmf" path="res://assets/particles/misislemuzzle/0010.png" id="15_jgv65"]
 [ext_resource type="Texture2D" uid="uid://bw40g3kci4pnh" path="res://assets/particles/misislemuzzle/0011.png" id="16_vuvo7"]
 [ext_resource type="Texture2D" uid="uid://sp50glei47lg" path="res://assets/particles/misislemuzzle/0012.png" id="17_jmxpo"]
@@ -233,7 +235,10 @@ bullet_scene = ExtResource("48_y6nd6")
 [node name="ConeShotSpawn" type="Node2D" parent="Scripts/ConeShot"]
 position = Vector2(-19, 6)
 
-[node name="Mines" type="Node2D" parent="Scripts"]
+[node name="Mines" type="Node2D" parent="Scripts" node_paths=PackedStringArray("mine_spawns")]
+script = ExtResource("13_xxict")
+mine_scene = ExtResource("14_yhmoa")
+mine_spawns = [NodePath("../../mines/minespawn1"), NodePath("../../mines/minespawn2"), NodePath("../../mines/minespawn3")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
 visible = false
