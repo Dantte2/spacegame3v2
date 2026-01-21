@@ -157,6 +157,9 @@ front_line_points = Array[Vector2]([Vector2(1544, 741), Vector2(1565, 660), Vect
 [node name="boss1" parent="." groups=["enemy"] instance=ExtResource("18_i54yb")]
 position = Vector2(1764, 525)
 
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(501, 877)
+
 [connection signal="pressed" from="debugcanvas/SpawnWaveButton" to="debugcanvas" method="_on_spawn_wave_button_pressed"]
 
 [editable path="player"]

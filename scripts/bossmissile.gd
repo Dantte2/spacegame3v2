@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var rise_height: float = 80.0
+@export var rise_height: float = 150.0
 @export var rise_time: float = 0.3
 @export var move_speed: float = 800.0
 @export var explosion_scene: PackedScene  
@@ -32,39 +32,50 @@ func _physics_process(delta: float) -> void:
         1:
             _move_to_target(delta)
 
+# =========================================================
+# RISE PHASE
+# =========================================================
 func _rise_phase(delta: float) -> void:
     _rise_timer += delta
     var t: float = clampf(_rise_timer / rise_time, 0.0, 1.0)
 
     # ease-out cubic
-    var eased_t: float = 1.0 - ((1.0 - t) * (1.0 - t) * (1.0 - t))
+    var eased_t: float = 1.0 - pow(1.0 - t, 3)
 
-    global_position.y = lerpf(
-        _start_position.y,
-        _start_position.y - rise_height,
-        eased_t
-    )
+    global_position.y = lerpf(_start_position.y, _start_position.y - rise_height, eased_t)
 
     if t >= 1.0:
         _phase = 1
 
+# =========================================================
+# MOVE PHASE
+# =========================================================
 func _move_to_target(delta: float) -> void:
     var dir: Vector2 = target_position - global_position
     var dist: float = dir.length()
 
-    if dist < 5.0:
+    if dist <= 0.1:  # close enough
         global_position = target_position
         _phase = 2
-        on_reached_target()
+        _explode()
         return
 
-    velocity = dir.normalized() * move_speed
-    move_and_slide()
+    # move toward target
+    var step = move_speed * delta
+    if step >= dist:
+        global_position = target_position
+        _phase = 2
+        _explode()
+    else:
+        velocity = dir.normalized() * move_speed
+        move_and_slide()
 
-func on_reached_target() -> void:
-    # Spawn explosion
+# =========================================================
+# EXPLOSION
+# =========================================================
+func _explode() -> void:
     if explosion_scene:
-        var explosion = explosion_scene.instantiate()
-        explosion.global_position = global_position
-        get_tree().current_scene.add_child(explosion)
-    queue_free()  # Remove the projectile after hitting
+        var expl = explosion_scene.instantiate()
+        get_parent().add_child(expl)
+        expl.global_position = global_position
+    queue_free()

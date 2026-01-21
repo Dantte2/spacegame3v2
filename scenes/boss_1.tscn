@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://bf17677gcby1o"]
+[gd_scene load_steps=56 format=3 uid="uid://bf17677gcby1o"]
 
 [ext_resource type="Texture2D" uid="uid://xbwatxbvej5u" path="res://assets/enemy/elite_enemy/3/Boss_ship5.png" id="1_gu4qg"]
 [ext_resource type="Script" uid="uid://cmiy0ikmab8q5" path="res://scripts/boss_1.gd" id="1_qrnk6"]
@@ -10,9 +10,12 @@
 [ext_resource type="Texture2D" uid="uid://be0segypn6n72" path="res://assets/enemy/bosses/exhaust/boss3/Level7_Turbo_004.png" id="7_r2q6c"]
 [ext_resource type="Texture2D" uid="uid://0alme6m4uq3k" path="res://assets/particles/misislemuzzle/0002.png" id="7_x8mh5"]
 [ext_resource type="Texture2D" uid="uid://b6tj2nt62dkbb" path="res://assets/particles/misislemuzzle/0003.png" id="8_hm3ln"]
+[ext_resource type="Script" uid="uid://bvvdm80xbigtu" path="res://scripts/pattern_c.gd" id="8_jgv65"]
 [ext_resource type="Texture2D" uid="uid://csqiqkh55845v" path="res://assets/enemy/bosses/exhaust/boss3/Level7_Turbo_005.png" id="8_xfwgx"]
+[ext_resource type="PackedScene" uid="uid://84hixycm3l55" path="res://scenes/bossmissile.tscn" id="9_jmxpo"]
 [ext_resource type="Texture2D" uid="uid://cuxxfhfdq7c5g" path="res://assets/particles/misislemuzzle/0004.png" id="9_n5ci1"]
 [ext_resource type="Texture2D" uid="uid://bvjdlpql1c56o" path="res://assets/particles/misislemuzzle/0005.png" id="10_r2q6c"]
+[ext_resource type="PackedScene" uid="uid://dx6k30o0vdnwj" path="res://scenes/boss_telegraph.tscn" id="10_xxict"]
 [ext_resource type="Texture2D" uid="uid://bhcesl6ro5h3y" path="res://assets/particles/misislemuzzle/0006.png" id="11_xfwgx"]
 [ext_resource type="Texture2D" uid="uid://byfbclvjr44i4" path="res://assets/particles/misislemuzzle/0007.png" id="12_txaef"]
 [ext_resource type="Texture2D" uid="uid://bb7y1l5xnbsul" path="res://assets/particles/misislemuzzle/0008.png" id="13_y6nd6"]
@@ -216,6 +219,11 @@ bulletspawn = NodePath("../../bulletspawn")
 boss_node = NodePath("../..")
 
 [node name="PatternC" type="Node2D" parent="Scripts"]
+script = ExtResource("8_jgv65")
+projectile_scene = ExtResource("9_jmxpo")
+telegraph_scene = ExtResource("10_xxict")
+spawn1_path = NodePath("../../PatternCMissile/PatternCMissileSpawn1")
+spawn2_path = NodePath("../../PatternCMissile/PatternCMissileSpawn2")
 
 [node name="ConeShot" type="Node2D" parent="Scripts"]
 script = ExtResource("47_txaef")
@@ -303,10 +311,10 @@ position = Vector2(7.5, 37)
 [node name="minespawn3" type="Node2D" parent="mines"]
 position = Vector2(20, 37.5)
 
-[node name="patterncmissile" type="Node2D" parent="."]
+[node name="PatternCMissile" type="Node2D" parent="."]
 
-[node name="PatternCmissileSpawn1" type="Node2D" parent="patterncmissile"]
+[node name="PatternCMissileSpawn1" type="Node2D" parent="PatternCMissile"]
 position = Vector2(-22.5, -13.5)
 
-[node name="PatternCmissileSpawn2" type="Node2D" parent="patterncmissile"]
+[node name="PatternCMissileSpawn2" type="Node2D" parent="PatternCMissile"]
 position = Vector2(7, -13.5)

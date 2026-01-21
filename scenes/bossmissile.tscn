@@ -111,13 +111,15 @@ animations = [{
 radius = 21.023796
 
 [node name="bossmissile" type="CharacterBody2D"]
+collision_layer = 128
+collision_mask = 128
 script = ExtResource("1_8jel0")
 explosion_scene = ExtResource("2_hldnk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.91, 0, 1, 1)
 sprite_frames = SubResource("SpriteFrames_q5iod")
-frame = 22
-frame_progress = 0.92565244
+frame_progress = 0.03100451
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_vdj1e")
