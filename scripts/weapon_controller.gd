@@ -82,7 +82,7 @@ func shoot_bullet() -> void:
 	_spawn_muzzle_flash()
 
 # =========================================================
-#                       MISSILE
+#                       MISSILE (FIXED)
 # =========================================================
 func shoot_missile() -> void:
 	if missile_scene == null or missile_point == null:
@@ -91,15 +91,16 @@ func shoot_missile() -> void:
 	var directions = [1, 1.2, -1, -1.2, 1.3, -1.3]
 	directions.shuffle()
 
-	var enemies := []
+	# Snapshot valid enemies ONCE
+	var enemies: Array[Node2D] = []
 	for e in get_tree().get_nodes_in_group("enemy"):
-		if is_instance_valid(e):
+		if is_instance_valid(e) and e is Node2D:
 			enemies.append(e)
 
 	for dir in directions:
 		var missile = missile_scene.instantiate()
-		var vertical_offset = randi_range(10, 40) * dir
 
+		var vertical_offset = randi_range(10, 40) * dir
 		missile.global_position = missile_point.global_position + Vector2(0, vertical_offset)
 		missile.global_rotation = missile_point.global_rotation
 
@@ -109,10 +110,14 @@ func shoot_missile() -> void:
 		if "direction_multiplier" in missile:
 			missile.direction_multiplier = dir
 
-		if enemies.size() > 0 and missile.has_method("set_target"):
-			missile.set_target(enemies.pick_random())
-
+		# ADD FIRST (important)
 		get_tree().current_scene.add_child(missile)
+
+		# Assign target SAFELY after entering tree
+		if enemies.size() > 0 and missile.has_method("set_target"):
+			var target = enemies.pick_random()
+			if is_instance_valid(target):
+				missile.call_deferred("set_target", target)
 
 		if missile.has_node("Exhaust"):
 			missile.get_node("Exhaust").play("exhaust")
